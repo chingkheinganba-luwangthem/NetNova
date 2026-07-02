@@ -29,7 +29,7 @@ export default function NotFound() {
         </h2>
         
         <p className="text-muted mb-8 leading-relaxed">
-          Oops! The page you are looking for might have been removed, had its name changed, or is temporarily unavailable. Let's get you back on track.
+          Oops! The page you are looking for might have been removed, had its name changed, or is temporarily unavailable. Let&apos;s get you back on track.
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
