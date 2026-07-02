@@ -70,9 +70,20 @@ export default function TestimonialsSection() {
 
   useEffect(() => {
     if (!emblaApi) return;
-    onSelect();
+
+    // Avoid calling setState synchronously during the effect cycle
+    const rafId = requestAnimationFrame(() => {
+      onSelect();
+    });
+
     emblaApi.on("select", onSelect);
-    return () => { emblaApi.off("select", onSelect); };
+    emblaApi.on("reInit", onSelect);
+    
+    return () => { 
+      cancelAnimationFrame(rafId);
+      emblaApi.off("select", onSelect); 
+      emblaApi.off("reInit", onSelect);
+    };
   }, [emblaApi, onSelect]);
 
   const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
