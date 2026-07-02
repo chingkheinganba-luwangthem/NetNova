@@ -34,9 +34,12 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  useEffect(() => {
+  const [prevPathname, setPrevPathname] = useState(pathname);
+
+  if (pathname !== prevPathname) {
+    setPrevPathname(pathname);
     setIsOpen(false);
-  }, [pathname]);
+  }
 
   return (
     <header
@@ -49,9 +52,12 @@ export default function Navbar() {
 
           {/* Logo - visually increased size using scale to not affect nav height */}
           <Link href="/" className="flex items-center shrink-0 group" aria-label="NetNova Technologies Home">
-            <img
+            <Image
               src="/logo.png"
               alt="NetNova Technologies"
+              width={200}
+              height={60}
+              priority
               className="h-10 sm:h-12 lg:h-[60px] w-auto transition-transform duration-300 group-hover:opacity-90 scale-125 origin-left"
             />
           </Link>
