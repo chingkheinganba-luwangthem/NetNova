@@ -44,12 +44,7 @@ const quickLinks = [
   { href: "/contact", label: "Contact Us" },
 ];
 
-const serviceLinks = [
-  { href: "/services#job-placement", label: "Job Placement" },
-  { href: "/services#resume-review", label: "Resume Review" },
-  { href: "/services#career-counseling", label: "Career Counseling" },
-  { href: "/services#recruitment", label: "Corporate Recruitment" },
-];
+
 
 const socialLinks = [
   { href: "#", icon: LinkedinIcon, label: "LinkedIn" },
@@ -134,7 +129,7 @@ export default function Footer() {
               Compliance
             </h3>
             <div className="inline-block hover:scale-105 transition-transform duration-300">
-              <img src="/E-Verify_logo.png" alt="E-Verify Participant" className="h-12 w-auto object-contain drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]" />
+              <Image src="/E-Verify_logo.png" alt="E-Verify Participant" width={120} height={48} className="h-12 w-auto object-contain drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]" />
             </div>
             <p className="text-[#94A3B8] text-xs leading-relaxed mt-5">
               NetNova Technologies is a proud participant in the E-Verify program.

@@ -166,11 +166,14 @@ export default function PricingPageClient() {
 
   /* Check sessionStorage on mount */
   useEffect(() => {
-    const access = sessionStorage.getItem("pricing_access");
-    if (access === "granted") {
-      setHasAccess(true);
-    }
-    setIsChecking(false);
+    const raf = requestAnimationFrame(() => {
+      const access = sessionStorage.getItem("pricing_access");
+      if (access === "granted") {
+        setHasAccess(true);
+      }
+      setIsChecking(false);
+    });
+    return () => cancelAnimationFrame(raf);
   }, []);
 
   if (isChecking) {

@@ -47,13 +47,16 @@ export default function PlacedInMarquee() {
           {[...companies, ...companies].map((company, i) => (
             <div key={i} className="flex flex-col items-center justify-center mx-6 w-24 gap-4 cursor-pointer">
               <div className="w-16 h-16 flex items-center justify-center transform transition-transform duration-300 hover:-translate-y-2 hover:scale-110 drop-shadow-md">
-                <img
+                <Image
                   src={`https://logo.uplead.com/${company.domain}`}
                   alt={`${company.name} logo`}
+                  width={64}
+                  height={64}
+                  unoptimized
                   className="w-full h-full object-contain hover:scale-110 transition-transform duration-300"
                   onError={(e) => {
                     // Fallback to text initials if logo fails
-                    e.currentTarget.src = `https://ui-avatars.com/api/?name=${company.name}&background=1E3A8A&color=FBF6E8&rounded=true`;
+                    e.currentTarget.srcset = `https://ui-avatars.com/api/?name=${company.name}&background=1E3A8A&color=FBF6E8&rounded=true`;
                   }}
                 />
               </div>
