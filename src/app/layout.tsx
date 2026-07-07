@@ -134,7 +134,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="min-h-full flex flex-col bg-[#FBF6E8] text-[#07162B]">
+      <body className="min-h-full flex flex-col bg-[#FBF6E8] text-[#07162B]" suppressHydrationWarning>
         {/* Skip to main content for accessibility */}
         <a
           href="#main-content"

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import {
   UserPlus,
   Briefcase,
@@ -15,6 +16,7 @@ import {
   Shield,
   Sparkles,
 } from "lucide-react";
+import ReferralForm from "@/components/refer/ReferralForm";
 
 /* ============================================
    How It Works Steps
@@ -39,7 +41,7 @@ const steps = [
     step: "Step 3",
     title: "Receive Your Reward",
     description:
-      "Once the candidate is successfully placed, you receive your referral reward. It's that simple!",
+      "Once the candidate is successfully placed, you receive your $500 referral reward. It's that simple!",
   },
 ];
 
@@ -91,17 +93,17 @@ function FAQItem({ faq, index }: { faq: typeof faqs[0]; index: number }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay: index * 0.06, duration: 0.4 }}
-      className="border border-border/50 rounded-2xl overflow-hidden bg-[#FBF6E8]"
+      className={`relative rounded-2xl overflow-hidden border transition-all duration-500 shadow-sm hover:shadow-md ${isOpen ? 'bg-[#07162B] border-[#07162B]' : 'bg-gradient-to-br from-[#F0F4F8] to-[#E2EAF4] border-[#1E3A8A]/10 hover:border-[#1E3A8A]/30'}`}
     >
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center justify-between p-6 text-left hover:bg-light-bg/50 transition-colors"
+        className="w-full flex items-center justify-between p-6 text-left"
         aria-expanded={isOpen}
       >
-        <span className="text-sm font-semibold text-dark pr-4">{faq.question}</span>
+        <span className={`text-base font-bold pr-4 transition-colors duration-300 ${isOpen ? 'text-[#FBF6E8]' : 'text-[#07162B]'}`}>{faq.question}</span>
         <ChevronDown
-          className={`w-5 h-5 text-muted shrink-0 transition-transform duration-200 ${
-            isOpen ? "rotate-180" : ""
+          className={`w-5 h-5 shrink-0 transition-all duration-300 ${
+            isOpen ? "rotate-180 text-[#D9B24C]" : "text-[#1E3A8A]"
           }`}
         />
       </button>
@@ -111,12 +113,15 @@ function FAQItem({ faq, index }: { faq: typeof faqs[0]; index: number }) {
             initial={{ height: 0 }}
             animate={{ height: "auto" }}
             exit={{ height: 0 }}
-            transition={{ duration: 0.2 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
             className="overflow-hidden"
           >
-            <p className="px-6 pb-6 text-sm text-muted leading-relaxed">
-              {faq.answer}
-            </p>
+            <div className="px-6 pb-6">
+              <div className="h-px w-full bg-[#1E3A8A]/30 mb-4" />
+              <p className="text-sm text-[#CBD5E1] leading-relaxed">
+                {faq.answer}
+              </p>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -135,31 +140,70 @@ export default function ReferPageClient() {
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute -top-40 right-0 w-[500px] h-[500px] rounded-full bg-primary/5 blur-3xl" />
         </div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-center max-w-3xl mx-auto"
-          >
-            <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-semibold uppercase tracking-wider mb-4">
-              Referral Program
-            </span>
-            <h1 className="text-4xl lg:text-5xl font-bold text-dark mb-6 font-[family-name:var(--font-geist-sans)]">
-              Refer Talent.{" "}
-              <span className="gradient-text">Earn Rewards.</span>
-            </h1>
-            <p className="text-lg text-muted leading-relaxed">
-              Know talented professionals looking for their next opportunity?
-              Refer them to NetNova and earn exciting rewards for every
-              successful placement.
-            </p>
-          </motion.div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Content Left */}
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
+              className="text-left"
+            >
+              <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-semibold uppercase tracking-wider mb-4">
+                Referral Program
+              </span>
+              <h1 className="text-4xl lg:text-5xl font-bold text-dark mb-4 font-[family-name:var(--font-geist-sans)] leading-tight">
+                Refer Talent.{" "}
+                <span className="gradient-text">Earn Rewards.</span>
+              </h1>
+              <p className="text-xl font-bold text-[#D9B24C] mb-6 tracking-wide">
+                Earn $500 per successful referral
+              </p>
+              <p className="text-lg text-muted leading-relaxed max-w-lg">
+                Know talented professionals looking for their next opportunity?
+                Refer them to NetNova and earn generous cash rewards for every
+                successful placement.
+              </p>
+              <div className="mt-8">
+                <Link
+                  href="#referral-form"
+                  className="group relative overflow-hidden inline-flex items-center gap-2 bg-[#D4A017] text-[#0F2D5C] px-8 py-4 rounded-xl shadow-[0_4px_15px_rgba(212,160,23,0.3)] hover:shadow-[0_8px_25px_rgba(212,160,23,0.4)] transition-all"
+                >
+                  <div className="absolute inset-0 bg-[#0F2D5C] translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out z-0" />
+                  <span className="relative z-10 flex items-center gap-2 text-sm font-bold group-hover:text-[#FBF6E8] transition-colors duration-300">
+                    Start Referring Now
+                    <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+                  </span>
+                </Link>
+              </div>
+            </motion.div>
+
+            {/* Image Right */}
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="relative hidden lg:block"
+            >
+              <div className="relative w-full max-w-lg mx-auto rounded-3xl overflow-hidden premium-shadow border border-[#1E3A8A]/10">
+                <Image 
+                  src="/referral-hero.png" 
+                  alt="Professional receiving a reward" 
+                  width={600} 
+                  height={500}
+                  className="w-full h-auto object-cover"
+                />
+              </div>
+              {/* Decorative Elements */}
+              <div className="absolute -bottom-6 -left-6 w-24 h-24 rounded-2xl bg-gradient-to-br from-[#1E3A8A] to-[#07162B] -z-10 shadow-lg" />
+              <div className="absolute -top-6 -right-6 w-20 h-20 rounded-full bg-[#D9B24C]/20 -z-10" />
+            </motion.div>
+          </div>
         </div>
       </section>
 
       {/* How It Works */}
-      <section className="section-padding bg-[#FBF6E8]">
+      <section className="py-12 lg:py-16 bg-[#FBF6E8]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -207,7 +251,7 @@ export default function ReferPageClient() {
       </section>
 
       {/* Benefits */}
-      <section className="section-padding bg-section-bg">
+      <section className="py-12 lg:py-16 bg-section-bg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -228,21 +272,28 @@ export default function ReferPageClient() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.08 }}
-                className="bg-[#FBF6E8] rounded-2xl p-7 border border-border/50 text-center card-hover"
+                className="group relative bg-gradient-to-br from-[#F0F4F8] to-[#E2EAF4] rounded-3xl p-8 border border-[#1E3A8A]/10 h-full flex flex-col items-center text-center shadow-xl shadow-[#1E3A8A]/10 overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(30,58,138,0.15)]"
               >
-                <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-4">
-                  <benefit.icon className="w-6 h-6 text-primary" />
+                {/* Hover slide background */}
+                <div className="absolute inset-0 bg-gradient-to-br from-[#07162B] to-[#1E3A8A] -translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-in-out z-0" />
+                <div className="absolute inset-x-0 bottom-0 h-1.5 bg-gradient-to-r from-[#D9B24C] to-[#FBF6E8] opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10" />
+
+                <div className="w-14 h-14 rounded-2xl bg-[#FBF6E8] border border-[#1E3A8A]/10 flex items-center justify-center mx-auto mb-6 group-hover:bg-[#D9B24C] group-hover:border-[#D9B24C] transition-all duration-500 relative z-10">
+                  <benefit.icon className="w-7 h-7 text-[#1E3A8A] group-hover:text-[#07162B] transition-colors duration-500" />
                 </div>
-                <h3 className="text-base font-semibold text-dark mb-2">{benefit.title}</h3>
-                <p className="text-sm text-muted leading-relaxed">{benefit.description}</p>
+                <h3 className="text-lg font-bold text-[#07162B] mb-3 relative z-10 group-hover:text-[#FBF6E8] transition-colors duration-500">{benefit.title}</h3>
+                <p className="text-sm text-[#475569] leading-relaxed relative z-10 group-hover:text-[#CBD5E1] transition-colors duration-500">{benefit.description}</p>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
+      {/* Referral Form */}
+      <ReferralForm />
+
       {/* FAQ */}
-      <section className="section-padding bg-[#FBF6E8]">
+      <section className="py-12 lg:py-16 bg-[#FBF6E8]">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -275,19 +326,22 @@ export default function ReferPageClient() {
             <div className="absolute top-0 right-0 w-[300px] h-[300px] rounded-full bg-[#FBF6E8]/10 blur-3xl -translate-y-1/2 translate-x-1/4" />
             <div className="relative z-10">
               <Sparkles className="w-10 h-10 text-[#FBF6E8]/80 mx-auto mb-6" />
-              <h2 className="text-3xl lg:text-4xl font-bold text-[#FBF6E8] mb-4 font-[family-name:var(--font-geist-sans)]">
-                Start Referring Today
+              <h2 className="text-4xl lg:text-5xl font-bold text-[#FBF6E8] mb-6 font-[family-name:var(--font-geist-sans)] tracking-tight">
+                Start Referring <span className="text-[#D9B24C]">Today</span>
               </h2>
-              <p className="text-[#FBF6E8]/80 text-lg mb-8 max-w-lg mx-auto">
+              <p className="text-[#FBF6E8]/80 text-lg mb-10 max-w-lg mx-auto">
                 It takes less than 2 minutes. Help someone find their dream job
                 and earn rewards along the way.
               </p>
               <Link
-                href="/contact"
-                className="inline-flex items-center gap-2 bg-[#FBF6E8] text-primary px-8 py-3.5 rounded-xl text-sm font-bold hover:shadow-xl transition-all duration-300"
+                href="#referral-form"
+                className="group relative overflow-hidden inline-flex items-center gap-2 bg-[#D4A017] text-[#0F2D5C] px-8 py-4 rounded-xl shadow-[0_4px_15px_rgba(212,160,23,0.3)] hover:shadow-[0_8px_25px_rgba(212,160,23,0.4)] transition-all"
               >
-                Refer Now
-                <ArrowRight className="w-4 h-4" />
+                <div className="absolute inset-0 bg-[#0F2D5C] translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out z-0" />
+                <span className="relative z-10 flex items-center gap-2 text-[15px] font-bold group-hover:text-[#FBF6E8] transition-colors duration-300">
+                  Refer Now
+                  <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
+                </span>
               </Link>
             </div>
           </motion.div>

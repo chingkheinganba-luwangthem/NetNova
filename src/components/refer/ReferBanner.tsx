@@ -44,7 +44,7 @@ export default function ReferBanner() {
             {/* CTA Right */}
             <div className="shrink-0">
               <Link
-                href="/refer-and-earn"
+                href="/refer-and-earn#referral-form"
                 className="group relative overflow-hidden inline-flex items-center gap-3 bg-[#D9B24C] text-[#07162B] px-8 py-4 rounded-xl font-bold transition-transform duration-300 hover:-translate-y-1 hover:shadow-[0_10px_20px_rgba(217,178,76,0.2)]"
               >
                 <span className="relative z-10 flex items-center gap-2">

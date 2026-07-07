@@ -3,28 +3,26 @@
 import Image from "next/image";
 
 const companies = [
-  // 5 Large
-  { name: "Google", domain: "google.com" },
+  { name: "Hartford HealthCare", domain: "hartfordhealthcare.org" },
+  { name: "Infosys", domain: "infosys.com" },
+  { name: "Pechanga Resort", domain: "pechanga.com" },
+  { name: "Corning", domain: "corning.com" },
   { name: "Microsoft", domain: "microsoft.com" },
+  { name: "Wholeworks", domain: "wholeworks.com" },
+  { name: "PayPal", domain: "paypal.com" },
+  { name: "Goldman Sachs", domain: "goldmansachs.com" },
   { name: "Amazon", domain: "amazon.com" },
-  { name: "Meta", domain: "meta.com" },
-  { name: "Apple", domain: "apple.com" },
-  // 5 Mid
-  { name: "Airbnb", domain: "airbnb.com" },
-  { name: "Stripe", domain: "stripe.com" },
-  { name: "Dropbox", domain: "dropbox.com" },
-  { name: "Slack", domain: "slack.com" },
-  { name: "Coinbase", domain: "coinbase.com" },
-  // 7 Small
-  { name: "Notion", domain: "notion.so" },
-  { name: "Vercel", domain: "vercel.com" },
-  { name: "Figma", domain: "figma.com" },
-  { name: "Zapier", domain: "zapier.com" },
-  { name: "Linear", domain: "linear.app" },
-  { name: "Webflow", domain: "webflow.com" },
-  { name: "Raycast", domain: "raycast.com" },
-  // 1 Startup
-  { name: "OpenAI", domain: "openai.com" },
+  { name: "CVS Health", domain: "cvshealth.com" },
+  { name: "Invences", domain: "invences.com" },
+  { name: "Cognizant", domain: "cognizant.com" },
+  { name: "AT&T", domain: "att.com" },
+  { name: "Synechron", domain: "synechron.com" },
+  { name: "Capgemini", domain: "capgemini.com" },
+  { name: "CGI", domain: "cgi.com" },
+  { name: "Trillion Tech", domain: "ttsiglobal.com" },
+  { name: "Piedmont Healthcare", domain: "piedmont.org" },
+  { name: "Panoramic Health", domain: "panoramichealth.com" },
+  { name: "Netflix", domain: "netflix.com" },
 ];
 
 export default function PlacedInMarquee() {
@@ -46,7 +44,7 @@ export default function PlacedInMarquee() {
           {/* Render twice for seamless loop */}
           {[...companies, ...companies].map((company, i) => (
             <div key={i} className="flex flex-col items-center justify-center mx-6 w-24 gap-4 cursor-pointer">
-              <div className="w-16 h-16 flex items-center justify-center transform transition-transform duration-300 hover:-translate-y-2 hover:scale-110 drop-shadow-md">
+              <div className="w-20 h-20 bg-white rounded-2xl p-3 flex items-center justify-center transform transition-transform duration-300 hover:-translate-y-2 hover:scale-110 shadow-[0_4px_20px_rgba(255,255,255,0.1)]">
                 <Image
                   src={`https://logo.uplead.com/${company.domain}`}
                   alt={`${company.name} logo`}
@@ -55,8 +53,14 @@ export default function PlacedInMarquee() {
                   unoptimized
                   className="w-full h-full object-contain hover:scale-110 transition-transform duration-300"
                   onError={(e) => {
-                    // Fallback to text initials if logo fails
-                    e.currentTarget.srcset = `https://ui-avatars.com/api/?name=${company.name}&background=1E3A8A&color=FBF6E8&rounded=true`;
+                    const target = e.currentTarget;
+                    if (target.src.includes('uplead')) {
+                      target.src = `https://logo.clearbit.com/${company.domain}`;
+                      target.srcset = target.src;
+                    } else if (target.src.includes('clearbit')) {
+                      target.src = `https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://${company.domain}&size=128`;
+                      target.srcset = target.src;
+                    }
                   }}
                 />
               </div>

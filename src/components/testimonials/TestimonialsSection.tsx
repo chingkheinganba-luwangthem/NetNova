@@ -11,44 +11,44 @@ import { Star, ChevronLeft, ChevronRight, Quote } from "lucide-react";
    ============================================ */
 const testimonials = [
   {
-    name: "Priya Sharma",
-    role: "Software Engineer at TCS",
+    name: "Sarah Jenkins",
+    role: "Senior Developer",
     content:
-      "NetNova transformed my job search. Within two weeks of registering, I had three interview calls and landed my dream role. Their team genuinely cares about candidate success.",
+      "I had been struggling to find a position that matched my skill set in the states. The placement team at NetNova really took the time to understand my background and connected me with an amazing role in just three weeks.",
     rating: 5,
-    type: "Candidate",
+    type: "US Citizen",
   },
   {
-    name: "Rahul Verma",
-    role: "HR Director, Wipro",
+    name: "Kenji Sato",
+    role: "UX/UI Designer",
     content:
-      "We've partnered with NetNova for our campus recruitment drives and bulk hiring needs. Their candidate quality and turnaround time is exceptional. A truly reliable recruitment partner.",
+      "Relocating and finding a suitable job seemed impossible until I found this consultancy. Their global reach and dedicated support staff made the entire transition smooth and stress-free. I highly recommend them to anyone seeking international opportunities.",
     rating: 5,
-    type: "Employer",
+    type: "Japan Citizen",
   },
   {
-    name: "Ananya Devi",
-    role: "Data Analyst at Infosys",
+    name: "Amara Diallo",
+    role: "Data Scientist",
     content:
-      "The career guidance and resume review services helped me pivot into data analytics. NetNova's counselors understood my strengths and matched me perfectly.",
+      "The personalized career counseling I received was outstanding. They helped me highlight my predictive modeling experience, which ultimately caught the eye of a top-tier tech firm. A truly phenomenal experience from start to finish.",
     rating: 5,
-    type: "Candidate",
+    type: "African Citizen",
   },
   {
-    name: "Vikram Singh",
-    role: "CEO, TechStart Solutions",
+    name: "David Chen",
+    role: "Cloud Architect",
     content:
-      "Finding qualified tech talent was always a challenge until we discovered NetNova. Their AI-matching technology and dedicated support have been game-changers for our team.",
+      "What impressed me most was their deep understanding of the tech industry. They didn't just send me random job postings; every interview they arranged was a perfect fit for my career goals.",
     rating: 5,
-    type: "Employer",
+    type: "Canadian Citizen",
   },
   {
-    name: "Meena Kumari",
-    role: "Marketing Manager at HCL",
+    name: "Elena Rodriguez",
+    role: "Product Manager",
     content:
-      "I was stuck in a career rut for two years. NetNova's interview preparation and guidance helped me land a role with a 60% salary hike. Forever grateful!",
+      "From the initial resume review to the final salary negotiation, the team was incredibly supportive. They gave me the confidence to aim higher, and it paid off with a fantastic new position.",
     rating: 5,
-    type: "Candidate",
+    type: "Spanish Citizen",
   },
 ];
 
@@ -119,21 +119,24 @@ export default function TestimonialsSection() {
         {/* Carousel */}
         <div className="relative">
           <div className="overflow-hidden" ref={emblaRef}>
-            <div className="flex gap-6 -ml-0">
+            <div className="flex -ml-6 py-4">
               {testimonials.map((testimonial, index) => (
                 <div
                   key={index}
-                  className="flex-none w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] pl-0 first:ml-0"
+                  className="flex-none w-full sm:w-1/2 lg:w-1/3 pl-6"
                 >
-                  <div className="group relative bg-[#FBF6E8] rounded-3xl p-8 border border-[#94A3B8]/20 h-full flex flex-col hover:border-[#1E3A8A]/30 transition-all duration-500 overflow-hidden shadow-sm hover:shadow-[0_20px_40px_-10px_rgba(30, 58, 138,0.1)]">
-                    {/* Hover Glow */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-[#1E3A8A]/10/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <div className="group relative bg-gradient-to-br from-[#F0F4F8] to-[#E2EAF4] rounded-3xl p-8 border border-[#1E3A8A]/10 h-full flex flex-col shadow-xl shadow-[#1E3A8A]/10 overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(30,58,138,0.15)]">
+                    {/* Hover slide background */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-[#07162B] to-[#1E3A8A] -translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-in-out z-0" />
+                    <div className="absolute inset-x-0 bottom-0 h-1.5 bg-gradient-to-r from-[#D9B24C] to-[#FBF6E8] opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10" />
                     
                     {/* Quote Icon */}
-                    <Quote className="w-10 h-10 text-[#FBF6E8]/80 mb-6 relative z-10" />
+                    <div className="w-12 h-12 rounded-2xl bg-[#FBF6E8] border border-[#1E3A8A]/10 flex items-center justify-center mb-6 group-hover:bg-[#D9B24C] group-hover:border-[#D9B24C] transition-all duration-500 relative z-10">
+                      <Quote className="w-6 h-6 text-[#1E3A8A] group-hover:text-[#07162B] transition-colors duration-500" />
+                    </div>
 
                     {/* Content */}
-                    <p className="text-base text-[#475569] leading-relaxed flex-1 mb-8 relative z-10 group-hover:text-[#07162B] transition-colors duration-300">
+                    <p className="text-base text-[#475569] leading-relaxed flex-1 mb-8 relative z-10 group-hover:text-[#CBD5E1] transition-colors duration-500">
                       &ldquo;{testimonial.content}&rdquo;
                     </p>
 
@@ -145,17 +148,14 @@ export default function TestimonialsSection() {
                     </div>
 
                     {/* Author */}
-                    <div className="flex items-center gap-4 relative z-10 pt-6 border-t border-[#94A3B8]/20">
-                      <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-[#1E3A8A] to-[#07162B] flex items-center justify-center text-[#FBF6E8] font-bold shadow-sm">
+                    <div className="flex items-center gap-4 relative z-10 pt-6 border-t border-[#94A3B8]/20 group-hover:border-[#94A3B8]/10 transition-colors duration-500">
+                      <div className="w-12 h-12 rounded-full bg-[#1E3A8A] flex items-center justify-center text-[#FBF6E8] font-bold shadow-sm group-hover:bg-[#D9B24C] group-hover:text-[#07162B] transition-colors duration-500">
                         {testimonial.name.charAt(0)}
                       </div>
                       <div>
-                        <p className="text-base font-bold text-[#07162B] mb-0.5">{testimonial.name}</p>
-                        <p className="text-sm text-[#1E3A8A]">{testimonial.role}</p>
+                        <p className="text-base font-bold text-[#07162B] mb-0.5 group-hover:text-[#FBF6E8] transition-colors duration-500">{testimonial.name}</p>
+                        <p className="text-sm text-[#1E3A8A] group-hover:text-[#94A3B8] transition-colors duration-500">{testimonial.role}</p>
                       </div>
-                      <span className="ml-auto text-xs px-3 py-1.5 rounded-full bg-[#1E3A8A]/10 border border-[#1E3A8A]/20 text-[#1E3A8A] font-medium">
-                        {testimonial.type}
-                      </span>
                     </div>
                   </div>
                 </div>

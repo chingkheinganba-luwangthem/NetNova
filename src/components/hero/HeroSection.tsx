@@ -49,12 +49,18 @@ export default function HeroSection() {
   const successCount = useCounter(95, 2000);
 
   return (
-    <section
-      className="relative min-h-[calc(100vh-4rem)] bg-cover bg-[center_right] bg-no-repeat flex items-center mt-16"
-      style={{ backgroundImage: "url('/hero-bg-new.jpg')" }}
-    >
+    <section className="relative min-h-[calc(100vh-4rem)] flex items-center mt-16 overflow-hidden">
+      {/* Background image container made slightly taller to crop the bottom curves */}
+      <div 
+        className="absolute inset-x-0 top-0 bg-cover bg-[center_right] bg-no-repeat z-0"
+        style={{ 
+          backgroundImage: "url('/hero-bg-exact.jpg')",
+          height: "115%" 
+        }}
+      />
+      
       {/* Mobile overlay to ensure text is readable if image crops */}
-      <div className="absolute inset-0 bg-[#FBF6E8]/80 lg:bg-transparent" />
+      <div className="absolute inset-0 bg-[#FBF6E8]/80 lg:bg-transparent z-0" />
 
       {/* ===== MAIN CONTENT ===== */}
       <div className="relative z-10 max-w-[1536px] mx-auto px-4 sm:px-8 lg:px-16 w-full">
@@ -96,7 +102,7 @@ export default function HeroSection() {
             {/* CTA Buttons */}
             <div className="flex flex-wrap items-center gap-3">
               <Link
-                href="/contact"
+                href="/services"
                 className="group relative overflow-hidden inline-flex items-center gap-2 bg-[#D4A017] text-[#0F2D5C] px-6 py-3 rounded-xl shadow-[0_4px_15px_rgba(212,160,23,0.3)] hover:shadow-[0_8px_25px_rgba(212,160,23,0.4)] transition-all"
               >
                 <div className="absolute inset-0 bg-[#0F2D5C] translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out z-0" />
@@ -108,7 +114,7 @@ export default function HeroSection() {
               </Link>
 
               <Link
-                href="/services"
+                href="/contact"
                 className="group relative overflow-hidden inline-flex items-center gap-2 bg-[#FBF6E8]/80 text-[#1E3A8A] px-6 py-3 rounded-xl border-2 border-[#1E3A8A] transition-all backdrop-blur-sm"
               >
                 <div className="absolute inset-0 bg-[#1E3A8A]/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out z-0" />

@@ -33,7 +33,7 @@ export default function AboutPageClient() {
   return (
     <>
       {/* Page Hero */}
-      <section className="relative pt-32 pb-16 lg:pt-40 lg:pb-20 bg-section-bg overflow-hidden">
+      <section className="relative pt-28 pb-10 lg:pt-32 lg:pb-12 bg-section-bg overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute -top-40 -right-40 w-[500px] h-[500px] rounded-full bg-primary/5 blur-3xl" />
         </div>
@@ -61,7 +61,7 @@ export default function AboutPageClient() {
       </section>
 
       {/* Company Story + Image */}
-      <section className="section-padding bg-[#FBF6E8]">
+      <section className="py-12 lg:py-16 bg-[#FBF6E8]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             <motion.div
@@ -81,7 +81,7 @@ export default function AboutPageClient() {
                   candidates.
                 </p>
                 <p>
-                  Founded in Manipur with a vision to bridge this gap, we
+                  Founded with a vision to bridge this gap, we
                   combined cutting-edge technology with personalized human
                   support to create a placement experience that actually works.
                 </p>
@@ -100,13 +100,13 @@ export default function AboutPageClient() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="relative"
             >
-              <div className="rounded-3xl overflow-hidden premium-shadow">
+              <div className="rounded-3xl overflow-hidden premium-shadow max-w-md mx-auto">
                 <Image
                   src="/about-team.png"
                   alt="NetNova Technologies team collaborating in a modern office environment"
-                  width={600}
-                  height={400}
-                  className="w-full h-auto object-cover"
+                  width={500}
+                  height={320}
+                  className="w-full h-auto max-h-[300px] object-cover"
                 />
               </div>
               {/* Decorative accent */}
@@ -118,7 +118,7 @@ export default function AboutPageClient() {
       </section>
 
       {/* Mission & Vision */}
-      <section className="section-padding bg-section-bg">
+      <section className="py-12 lg:py-16 bg-section-bg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-8">
             {/* Mission */}
@@ -127,20 +127,26 @@ export default function AboutPageClient() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
-              className="bg-white rounded-3xl p-8 lg:p-10 border border-border/50 premium-shadow card-hover"
+              className="group relative bg-gradient-to-br from-[#F0F4F8] to-[#E2EAF4] rounded-3xl p-8 lg:p-10 border border-[#1E3A8A]/10 shadow-xl shadow-[#1E3A8A]/10 overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(30,58,138,0.15)]"
             >
-              <div className="w-14 h-14 rounded-2xl gradient-bg flex items-center justify-center mb-6">
-                <Target className="w-7 h-7 text-[#FBF6E8]" />
+              {/* Hover slide background */}
+              <div className="absolute inset-0 bg-gradient-to-br from-[#07162B] to-[#1E3A8A] -translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-in-out z-0" />
+              <div className="absolute inset-x-0 bottom-0 h-1.5 bg-gradient-to-r from-[#D9B24C] to-[#FBF6E8] opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10" />
+
+              <div className="relative z-10">
+                <div className="w-16 h-16 rounded-2xl bg-[#FBF6E8] border border-[#1E3A8A]/10 flex items-center justify-center mb-6 group-hover:bg-[#D9B24C] group-hover:border-[#D9B24C] transition-all duration-500">
+                  <Target className="w-8 h-8 text-[#1E3A8A] group-hover:text-[#07162B] transition-colors duration-500" />
+                </div>
+                <h3 className="text-2xl font-bold text-[#07162B] mb-4 font-[family-name:var(--font-geist-sans)] group-hover:text-[#FBF6E8] transition-colors duration-500">
+                  Our Mission
+                </h3>
+                <p className="text-[#475569] leading-relaxed group-hover:text-[#CBD5E1] transition-colors duration-500">
+                  To empower individuals with career opportunities that match
+                  their skills and aspirations, while helping organizations build
+                  high-performing teams through intelligent, ethical, and fast
+                  recruitment practices.
+                </p>
               </div>
-              <h3 className="text-2xl font-bold text-dark mb-4 font-[family-name:var(--font-geist-sans)]">
-                Our Mission
-              </h3>
-              <p className="text-muted leading-relaxed">
-                To empower individuals with career opportunities that match
-                their skills and aspirations, while helping organizations build
-                high-performing teams through intelligent, ethical, and fast
-                recruitment practices.
-              </p>
             </motion.div>
 
             {/* Vision */}
@@ -149,27 +155,33 @@ export default function AboutPageClient() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="bg-white rounded-3xl p-8 lg:p-10 border border-border/50 premium-shadow card-hover"
+              className="group relative bg-gradient-to-br from-[#F0F4F8] to-[#E2EAF4] rounded-3xl p-8 lg:p-10 border border-[#1E3A8A]/10 shadow-xl shadow-[#1E3A8A]/10 overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(30,58,138,0.15)]"
             >
-              <div className="w-14 h-14 rounded-2xl gradient-bg-reverse flex items-center justify-center mb-6">
-                <Eye className="w-7 h-7 text-[#FBF6E8]" />
+              {/* Hover slide background */}
+              <div className="absolute inset-0 bg-gradient-to-br from-[#07162B] to-[#1E3A8A] -translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-in-out z-0" />
+              <div className="absolute inset-x-0 bottom-0 h-1.5 bg-gradient-to-r from-[#D9B24C] to-[#FBF6E8] opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10" />
+
+              <div className="relative z-10">
+                <div className="w-16 h-16 rounded-2xl bg-[#FBF6E8] border border-[#1E3A8A]/10 flex items-center justify-center mb-6 group-hover:bg-[#D9B24C] group-hover:border-[#D9B24C] transition-all duration-500">
+                  <Eye className="w-8 h-8 text-[#1E3A8A] group-hover:text-[#07162B] transition-colors duration-500" />
+                </div>
+                <h3 className="text-2xl font-bold text-[#07162B] mb-4 font-[family-name:var(--font-geist-sans)] group-hover:text-[#FBF6E8] transition-colors duration-500">
+                  Our Vision
+                </h3>
+                <p className="text-[#475569] leading-relaxed group-hover:text-[#CBD5E1] transition-colors duration-500">
+                  To become India&apos;s most trusted and innovative placement
+                  consultancy, setting new benchmarks in recruitment quality,
+                  candidate satisfaction, and employer partnerships across the
+                  globe.
+                </p>
               </div>
-              <h3 className="text-2xl font-bold text-dark mb-4 font-[family-name:var(--font-geist-sans)]">
-                Our Vision
-              </h3>
-              <p className="text-muted leading-relaxed">
-                To become India&apos;s most trusted and innovative placement
-                consultancy, setting new benchmarks in recruitment quality,
-                candidate satisfaction, and employer partnerships across the
-                globe.
-              </p>
             </motion.div>
           </div>
         </div>
       </section>
 
       {/* Core Values */}
-      <section className="section-padding bg-[#FBF6E8]">
+      <section className="py-12 lg:py-16 bg-[#FBF6E8]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -193,37 +205,26 @@ export default function AboutPageClient() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.08, duration: 0.5 }}
-                className="p-7 rounded-2xl border border-border/50 bg-white premium-shadow card-hover group"
+                className="group relative p-7 rounded-2xl bg-gradient-to-br from-[#F0F4F8] to-[#E2EAF4] border border-[#1E3A8A]/10 shadow-xl shadow-[#1E3A8A]/10 overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(30,58,138,0.15)]"
               >
-                <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center mb-5 group-hover:bg-primary/15 transition-colors">
-                  <value.icon className="w-6 h-6 text-primary" />
+                {/* Hover slide background */}
+                <div className="absolute inset-0 bg-gradient-to-br from-[#07162B] to-[#1E3A8A] -translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-in-out z-0" />
+                <div className="absolute inset-x-0 bottom-0 h-1.5 bg-gradient-to-r from-[#D9B24C] to-[#FBF6E8] opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10" />
+
+                <div className="relative z-10">
+                  <div className="w-14 h-14 rounded-2xl bg-[#FBF6E8] border border-[#1E3A8A]/10 flex items-center justify-center mb-5 group-hover:bg-[#D9B24C] group-hover:border-[#D9B24C] transition-all duration-500">
+                    <value.icon className="w-7 h-7 text-[#1E3A8A] group-hover:text-[#07162B] transition-colors duration-500" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-[#07162B] mb-2 group-hover:text-[#FBF6E8] transition-colors duration-500">{value.title}</h3>
+                  <p className="text-sm text-[#475569] leading-relaxed group-hover:text-[#CBD5E1] transition-colors duration-500">{value.description}</p>
                 </div>
-                <h3 className="text-lg font-semibold text-dark mb-2">{value.title}</h3>
-                <p className="text-sm text-muted leading-relaxed">{value.description}</p>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Our Teams (Coming Soon) */}
-      <section className="section-padding bg-section-bg relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="py-16 md:py-24"
-          >
-            <h2 className="text-4xl lg:text-5xl font-bold text-dark mb-6 font-[family-name:var(--font-geist-sans)] tracking-tight">
-              Our <span className="gradient-text">Teams</span>
-            </h2>
-            <p className="text-xl text-muted font-medium tracking-wide uppercase">
-              Publishing soon
-            </p>
-          </motion.div>
-        </div>
-      </section>
+
     </>
   );
 }

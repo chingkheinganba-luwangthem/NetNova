@@ -109,25 +109,31 @@ function ServiceCard({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay: index * 0.08, duration: 0.5 }}
-      className="bg-white rounded-2xl p-8 border border-border/50 premium-shadow card-hover group scroll-mt-24"
+      className="group relative bg-gradient-to-br from-[#F0F4F8] to-[#E2EAF4] rounded-2xl p-8 border border-[#1E3A8A]/10 shadow-xl shadow-[#1E3A8A]/10 overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(30,58,138,0.15)] scroll-mt-24"
     >
-      <div className="w-14 h-14 rounded-2xl gradient-bg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-        <service.icon className="w-7 h-7 text-[#FBF6E8]" />
+      {/* Hover slide background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[#07162B] to-[#1E3A8A] -translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-in-out z-0" />
+      <div className="absolute inset-x-0 bottom-0 h-1.5 bg-gradient-to-r from-[#D9B24C] to-[#FBF6E8] opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10" />
+
+      <div className="relative z-10">
+        <div className="w-16 h-16 rounded-2xl bg-[#FBF6E8] border border-[#1E3A8A]/10 flex items-center justify-center mb-6 group-hover:bg-[#D9B24C] group-hover:border-[#D9B24C] transition-all duration-500">
+          <service.icon className="w-8 h-8 text-[#1E3A8A] group-hover:text-[#07162B] transition-colors duration-500" />
+        </div>
+        <h3 className="text-xl font-bold text-[#07162B] mb-3 font-[family-name:var(--font-geist-sans)] group-hover:text-[#FBF6E8] transition-colors duration-500">
+          {service.title}
+        </h3>
+        <p className="text-sm text-[#475569] leading-relaxed mb-5 group-hover:text-[#CBD5E1] transition-colors duration-500">
+          {service.description}
+        </p>
+        <ul className="space-y-2">
+          {service.features.map((feature) => (
+            <li key={feature} className="flex items-center gap-2 text-sm text-[#475569] group-hover:text-[#CBD5E1] transition-colors duration-500">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#1E3A8A] group-hover:bg-[#D9B24C] transition-colors duration-500 shrink-0" />
+              {feature}
+            </li>
+          ))}
+        </ul>
       </div>
-      <h3 className="text-xl font-bold text-dark mb-3 font-[family-name:var(--font-geist-sans)]">
-        {service.title}
-      </h3>
-      <p className="text-sm text-muted leading-relaxed mb-5">
-        {service.description}
-      </p>
-      <ul className="space-y-2">
-        {service.features.map((feature) => (
-          <li key={feature} className="flex items-center gap-2 text-sm text-dark-secondary">
-            <span className="w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
-            {feature}
-          </li>
-        ))}
-      </ul>
     </motion.div>
   );
 }
@@ -139,7 +145,7 @@ export default function ServicesPageClient() {
   return (
     <>
       {/* Page Hero */}
-      <section className="relative pt-32 pb-16 lg:pt-40 lg:pb-20 bg-section-bg overflow-hidden">
+      <section className="relative pt-28 pb-10 lg:pt-32 lg:pb-12 bg-section-bg overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute -top-40 -left-40 w-[500px] h-[500px] rounded-full bg-primary/5 blur-3xl" />
         </div>
@@ -182,7 +188,7 @@ export default function ServicesPageClient() {
       </section>
 
       {/* Candidate Services */}
-      <section id="candidate-services" className="section-padding bg-[#FBF6E8] scroll-mt-32">
+      <section id="candidate-services" className="py-12 lg:py-16 bg-[#FBF6E8] scroll-mt-32">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -209,7 +215,7 @@ export default function ServicesPageClient() {
       </section>
 
       {/* Employer Services */}
-      <section id="employer-services" className="section-padding bg-section-bg scroll-mt-32">
+      <section id="employer-services" className="py-12 lg:py-16 bg-section-bg scroll-mt-32">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -236,7 +242,7 @@ export default function ServicesPageClient() {
       </section>
 
       {/* CTA */}
-      <section className="section-padding bg-[#FBF6E8]">
+      <section className="py-12 lg:py-16 bg-[#FBF6E8]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
@@ -252,10 +258,13 @@ export default function ServicesPageClient() {
             </p>
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 gradient-bg text-[#FBF6E8] px-8 py-3.5 rounded-xl text-sm font-semibold hover:shadow-xl hover:shadow-primary/25 transition-all duration-300"
+              className="group relative overflow-hidden inline-flex items-center gap-2 bg-[#D4A017] text-[#0F2D5C] px-8 py-4 rounded-xl shadow-[0_4px_15px_rgba(212,160,23,0.3)] hover:shadow-[0_8px_25px_rgba(212,160,23,0.4)] transition-all"
             >
-              Contact Us
-              <ArrowRight className="w-4 h-4" />
+              <div className="absolute inset-0 bg-[#0F2D5C] translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out z-0" />
+              <span className="relative z-10 flex items-center gap-2 text-sm font-bold group-hover:text-[#FBF6E8] transition-colors duration-300">
+                Contact Us
+                <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+              </span>
             </Link>
           </motion.div>
         </div>

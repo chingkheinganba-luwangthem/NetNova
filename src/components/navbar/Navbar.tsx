@@ -14,9 +14,9 @@ const navLinks = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },
   { href: "/services", label: "Services" },
-  { href: "/employers", label: "Careers" },
+  { href: "/careers", label: "Careers" },
   { href: "/candidates", label: "Partner Portal" },
-  { href: "/resources", label: "Refer and Earn", hasDropdown: true },
+  { href: "/refer-and-earn", label: "Refer and Earn" },
   { href: "/contact", label: "Contact" },
 ];
 

@@ -40,17 +40,19 @@ const InstagramIcon = ({ className }: { className?: string }) => (
 const quickLinks = [
   { href: "/about", label: "About Us" },
   { href: "/services", label: "Services" },
+  { href: "/careers", label: "Careers" },
   { href: "/refer-and-earn", label: "Refer & Earn" },
   { href: "/contact", label: "Contact Us" },
+  { href: "/privacy-policy", label: "Privacy Policy" },
 ];
 
 
 
 const socialLinks = [
-  { href: "#", icon: LinkedinIcon, label: "LinkedIn" },
+  { href: "https://www.linkedin.com/company/netnova-technologies/", icon: LinkedinIcon, label: "LinkedIn" },
   { href: "#", icon: TwitterIcon, label: "Twitter" },
   { href: "#", icon: FacebookIcon, label: "Facebook" },
-  { href: "#", icon: InstagramIcon, label: "Instagram" },
+  { href: "https://www.instagram.com/netnova_technologies/", icon: InstagramIcon, label: "Instagram" },
 ];
 
 /* ============================================
@@ -59,7 +61,7 @@ const socialLinks = [
    ============================================ */
 export default function Footer() {
   return (
-    <footer className="bg-[#07162B] text-[#FBF6E8] border-t border-[#1E3A8A]/40 relative overflow-hidden" role="contentinfo">
+    <footer className="bg-[#0F2D5C] text-[#FBF6E8] border-t border-[#1E3A8A]/40 relative overflow-hidden" role="contentinfo">
       {/* Background Glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[1px] bg-gradient-to-r from-transparent via-[#1E3A8A] to-transparent opacity-30" />
       <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#1E3A8A]/20 rounded-full blur-[120px] pointer-events-none" />
@@ -69,13 +71,13 @@ export default function Footer() {
           {/* Brand Column */}
           <div className="lg:col-span-1">
             <Link href="/" className="inline-block mb-6 group">
-              <div className="inline-block transition-transform duration-300">
+              <div className="inline-block transition-transform duration-300 bg-white p-3 rounded-xl">
                 <Image
                   src="/logo.png"
                   alt="NetNova Technologies"
                   width={320}
                   height={100}
-                  className="h-20 w-auto transition-transform duration-300 group-hover:scale-105 drop-shadow-[0_0_20px_rgba(255,255,255,0.9)]"
+                  className="h-16 w-auto transition-transform duration-300 group-hover:scale-105"
                 />
               </div>
             </Link>
@@ -128,8 +130,8 @@ export default function Footer() {
               <span className="w-2 h-2 rounded-full bg-[#D9B24C]" />
               Compliance
             </h3>
-            <div className="inline-block hover:scale-105 transition-transform duration-300">
-              <Image src="/E-Verify_logo.png" alt="E-Verify Participant" width={120} height={48} className="h-12 w-auto object-contain drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]" />
+            <div className="inline-block transition-transform duration-300 hover:scale-105 bg-white p-2 rounded-xl">
+              <Image src="/E-Verify_logo.png" alt="E-Verify Participant" width={120} height={48} className="h-12 w-auto object-contain" />
             </div>
             <p className="text-[#94A3B8] text-xs leading-relaxed mt-5">
               NetNova Technologies is a proud participant in the E-Verify program.
@@ -177,7 +179,7 @@ export default function Footer() {
       </div>
 
       {/* Bottom Bar */}
-      <div className="border-t border-[#1E3A8A]/40 relative z-10 bg-[#07162B]">
+      <div className="border-t border-[#1E3A8A]/40 relative z-10 bg-[#0F2D5C]">
         <div className="max-w-[1536px] mx-auto px-4 sm:px-8 lg:px-16 py-6 flex flex-col items-center justify-center gap-4">
           <p className="text-[#94A3B8] text-xs text-center">
             © {new Date().getFullYear()} NetNova Technologies. All rights reserved.

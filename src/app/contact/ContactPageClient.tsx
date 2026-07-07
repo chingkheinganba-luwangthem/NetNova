@@ -3,6 +3,7 @@
 import { useState, type FormEvent } from "react";
 import { motion } from "framer-motion";
 import { MapPin, Phone, Mail, Send, CheckCircle2 } from "lucide-react";
+import Link from "next/link";
 
 export default function ContactPageClient() {
   const [formData, setFormData] = useState({
@@ -218,6 +219,23 @@ export default function ContactPageClient() {
                     className={`w-full bg-[#050C17] border ${errors.message ? "border-red-500/50" : "border-[#1E3A8A]/20"} rounded-xl px-4 py-3.5 text-sm text-white placeholder-[#475569] focus:outline-none focus:border-[#D9B24C] focus:ring-1 focus:ring-[#D9B24C] transition-all resize-none`}
                     placeholder="Tell us about your background and goals..."
                   />
+                </div>
+
+                {/* Opt-in Checkbox */}
+                <div className="flex items-start gap-3">
+                  <input
+                    type="checkbox"
+                    id="optIn"
+                    required
+                    className="mt-1 w-4 h-4 rounded border-[#1E3A8A]/20 bg-[#050C17] text-[#D9B24C] focus:ring-[#D9B24C] cursor-pointer"
+                  />
+                  <label htmlFor="optIn" className="text-[11px] text-[#94A3B8] leading-relaxed cursor-pointer">
+                    By opting in for text messages, you agree to receive messages from NetNova Technologies at the number provided. Message frequency varies. Msg & data rates may apply.{" "}
+                    <Link href="/privacy-policy" className="text-[#D9B24C] hover:underline" target="_blank">
+                      View our Privacy Policy
+                    </Link>{" "}
+                    for more information.
+                  </label>
                 </div>
 
                 {/* Submit Button */}
