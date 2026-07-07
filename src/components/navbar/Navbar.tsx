@@ -10,7 +10,13 @@ import { Menu, X, ArrowRight, ChevronDown } from "lucide-react";
 /* ============================================
    Navigation Links Configuration
    ============================================ */
-const navLinks = [
+type NavLink = {
+  href: string;
+  label: string;
+  hasDropdown?: boolean;
+};
+
+const navLinks: NavLink[] = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },
   { href: "/services", label: "Services" },
