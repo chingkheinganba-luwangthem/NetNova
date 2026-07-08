@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowLeft, Send, Loader2, Upload } from "lucide-react";
+import { ArrowLeft, Send, Loader2, Upload, CheckCircle2 } from "lucide-react";
 import { toast } from "react-hot-toast";
 
 export default function ApplyClient() {
@@ -13,9 +13,15 @@ export default function ApplyClient() {
   const [role, setRole] = useState("");
   const [loading, setLoading] = useState(false);
   const [fileName, setFileName] = useState("");
+  const [nextUrl, setNextUrl] = useState("");
+  
+  const isSuccess = searchParams.get("success") === "true";
 
   useEffect(() => {
     if (roleQuery) setRole(decodeURIComponent(roleQuery));
+    if (typeof window !== "undefined") {
+      setNextUrl(`${window.location.origin}${window.location.pathname}?role=${encodeURIComponent(roleQuery || "")}&success=true`);
+    }
   }, [roleQuery]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -57,23 +63,41 @@ export default function ApplyClient() {
           className="w-full max-w-3xl bg-[#0F2D5C]/40 border border-[#1E3A8A]/50 rounded-3xl p-8 md:p-12 backdrop-blur-md"
         >
           {/* Header */}
-          <div className="mb-10">
+          <div className="mb-10 text-center md:text-left">
             <h1 className="text-3xl md:text-4xl font-bold mb-2">
               Apply: <span className="text-[#D9B24C]">{role || "Role"}</span>
             </h1>
           </div>
 
-          {/* Form */}
-          <form 
-            action="https://formsubmit.co/chingkheinganbaluwangthem@gmail.com" 
-            method="POST" 
-            encType="multipart/form-data"
-            onSubmit={handleSubmit}
-            className="space-y-8"
-          >
-            {/* FormSubmit Configuration */}
-            <input type="hidden" name="_subject" value={`New Job Application: ${role}`} />
-            <input type="hidden" name="_template" value="table" />
+          {isSuccess ? (
+            <div className="text-center py-16">
+              <div className="w-20 h-20 rounded-full border-4 border-[#D9B24C] flex items-center justify-center mx-auto mb-6">
+                <CheckCircle2 className="w-10 h-10 text-[#D9B24C]" />
+              </div>
+              <h3 className="text-2xl font-bold text-white mb-4 font-[family-name:var(--font-geist-sans)]">Message Sent!</h3>
+              <p className="text-[#94A3B8] mb-8 max-w-md mx-auto">
+                Thank you for applying. We have received your application and will get back to you shortly.
+              </p>
+              <Link
+                href="/careers"
+                className="inline-flex bg-[#1E3A8A]/20 text-[#D9B24C] px-8 py-3 rounded-xl text-sm font-bold hover:bg-[#1E3A8A]/40 transition-colors"
+              >
+                View More Jobs
+              </Link>
+            </div>
+          ) : (
+            <form 
+              action="https://formsubmit.co/chingkheinganbaluwangthem@gmail.com" 
+              method="POST" 
+              encType="multipart/form-data"
+              onSubmit={handleSubmit}
+              className="space-y-8"
+            >
+              {/* FormSubmit Configuration */}
+              <input type="hidden" name="_subject" value={`New Job Application: ${role}`} />
+              <input type="hidden" name="_template" value="table" />
+              <input type="hidden" name="_captcha" value="false" />
+              {nextUrl && <input type="hidden" name="_next" value={nextUrl} />}
             {/* Row 1: Name + Email */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="space-y-2">
@@ -218,6 +242,7 @@ export default function ApplyClient() {
               )}
             </button>
           </form>
+          )}
         </motion.div>
       </div>
     </div>

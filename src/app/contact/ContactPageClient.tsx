@@ -2,7 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import { motion } from "framer-motion";
-import { MapPin, Phone, Mail, Send, CheckCircle2 } from "lucide-react";
+import { MapPin, Phone, Mail, Send, CheckCircle2, Loader2 } from "lucide-react";
 import Link from "next/link";
 
 export default function ContactPageClient() {
@@ -266,7 +266,10 @@ export default function ContactPageClient() {
                     className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-[#D9B24C] to-[#E2C974] hover:to-[#D9B24C] text-[#07162B] px-8 py-3.5 rounded-xl text-[13px] font-bold uppercase tracking-wide transition-all hover:shadow-[0_0_20px_rgba(217,178,76,0.3)] disabled:opacity-70 disabled:cursor-not-allowed"
                   >
                     {isSubmitting ? (
-                      <span className="animate-pulse">Sending...</span>
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        Sending...
+                      </>
                     ) : (
                       <>
                         <Send className="w-4 h-4" />

@@ -5,6 +5,7 @@ import Navbar from "@/components/navbar/Navbar";
 import Footer from "@/components/footer/Footer";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
+import NextTopLoader from "nextjs-toploader";
 
 /* ============================================
    Font Configuration
@@ -143,6 +144,7 @@ export default function RootLayout({
         >
           Skip to main content
         </a>
+        <NextTopLoader color="#D9B24C" showSpinner={false} />
         <Navbar />
         <main id="main-content" className="flex-1">
           {children}

@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { User, Megaphone, Send } from "lucide-react";
+import { User, Megaphone, Send, Loader2 } from "lucide-react";
 import { useState } from "react";
 import Link from "next/link";
 
@@ -13,15 +13,34 @@ export default function ReferralForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    // Simulate API call
-    setTimeout(() => {
+    
+    const form = e.target as HTMLFormElement;
+    const formData = new FormData(form);
+
+    try {
+      const response = await fetch("https://formsubmit.co/ajax/chingkheinganbaluwangthem@gmail.com", {
+        method: "POST",
+        headers: {
+          "Accept": "application/json",
+        },
+        body: formData,
+      });
+
+      if (response.ok) {
+        setIsSuccess(true);
+        form.reset(); // Clear the form fields
+        setTimeout(() => setIsSuccess(false), 5000);
+      } else {
+        alert("Something went wrong. Please try again.");
+      }
+    } catch (error) {
+      alert("An error occurred. Please try again later.");
+    } finally {
       setIsSubmitting(false);
-      setIsSuccess(true);
-      setTimeout(() => setIsSuccess(false), 5000);
-    }, 1500);
+    }
   };
 
   return (
@@ -55,6 +74,7 @@ export default function ReferralForm() {
                   <input
                     type="text"
                     id="sourceName"
+                    name="sourceName"
                     required
                     placeholder="Enter your name"
                     className="w-full bg-[#0F2D5C]/50 border border-[#1E3A8A]/60 rounded-xl px-4 py-2.5 text-sm text-[#FBF6E8] placeholder-[#475569] focus:outline-none focus:border-[#D9B24C] focus:ring-1 focus:ring-[#D9B24C] transition-all"
@@ -67,6 +87,7 @@ export default function ReferralForm() {
                   <input
                     type="email"
                     id="sourceEmail"
+                    name="sourceEmail"
                     required
                     placeholder="your@email.com"
                     className="w-full bg-[#0F2D5C]/50 border border-[#1E3A8A]/60 rounded-xl px-4 py-2.5 text-sm text-[#FBF6E8] placeholder-[#475569] focus:outline-none focus:border-[#D9B24C] focus:ring-1 focus:ring-[#D9B24C] transition-all"
@@ -79,6 +100,7 @@ export default function ReferralForm() {
                   <input
                     type="tel"
                     id="sourcePhone"
+                    name="sourcePhone"
                     required
                     placeholder="+1 xxx-xxxx"
                     className="w-full bg-[#0F2D5C]/50 border border-[#1E3A8A]/60 rounded-xl px-4 py-2.5 text-sm text-[#FBF6E8] placeholder-[#475569] focus:outline-none focus:border-[#D9B24C] focus:ring-1 focus:ring-[#D9B24C] transition-all"
@@ -107,6 +129,7 @@ export default function ReferralForm() {
                   <input
                     type="text"
                     id="targetName"
+                    name="targetName"
                     required
                     placeholder="Candidate name"
                     className="w-full bg-[#0F2D5C]/50 border border-[#1E3A8A]/60 rounded-xl px-4 py-2.5 text-sm text-[#FBF6E8] placeholder-[#475569] focus:outline-none focus:border-[#D9B24C] focus:ring-1 focus:ring-[#D9B24C] transition-all"
@@ -119,6 +142,7 @@ export default function ReferralForm() {
                   <input
                     type="email"
                     id="targetEmail"
+                    name="targetEmail"
                     required
                     placeholder="candidate@email.com"
                     className="w-full bg-[#0F2D5C]/50 border border-[#1E3A8A]/60 rounded-xl px-4 py-2.5 text-sm text-[#FBF6E8] placeholder-[#475569] focus:outline-none focus:border-[#D9B24C] focus:ring-1 focus:ring-[#D9B24C] transition-all"
@@ -131,6 +155,7 @@ export default function ReferralForm() {
                   <input
                     type="tel"
                     id="targetPhone"
+                    name="targetPhone"
                     required
                     placeholder="+1 xxx-xxxx"
                     className="w-full bg-[#0F2D5C]/50 border border-[#1E3A8A]/60 rounded-xl px-4 py-2.5 text-sm text-[#FBF6E8] placeholder-[#475569] focus:outline-none focus:border-[#D9B24C] focus:ring-1 focus:ring-[#D9B24C] transition-all"
@@ -165,7 +190,16 @@ export default function ReferralForm() {
               >
                 <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
                 <span className="relative z-10 flex items-center justify-center gap-2">
-                  {isSubmitting ? "Processing..." : isSuccess ? "Initialized Successfully!" : "Initialize"}
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      Processing...
+                    </>
+                  ) : isSuccess ? (
+                    "Initialized Successfully!"
+                  ) : (
+                    "Initialize"
+                  )}
                   {!isSubmitting && !isSuccess && <Send className="w-4 h-4" />}
                 </span>
               </button>
