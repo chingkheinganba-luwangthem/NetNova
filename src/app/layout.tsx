@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import Navbar from "@/components/navbar/Navbar";
 import Footer from "@/components/footer/Footer";
 import "./globals.css";
+import { Toaster } from "react-hot-toast";
 
 /* ============================================
    Font Configuration
@@ -147,6 +148,7 @@ export default function RootLayout({
           {children}
         </main>
         <Footer />
+        <Toaster position="top-center" />
       </body>
     </html>
   );

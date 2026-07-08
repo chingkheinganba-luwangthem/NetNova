@@ -11,7 +11,7 @@ import { Star, ChevronLeft, ChevronRight, Quote } from "lucide-react";
    ============================================ */
 const testimonials = [
   {
-    name: "Sarah Jenkins",
+    name: "Aarav Sharma",
     role: "Senior Developer",
     content:
       "I had been struggling to find a position that matched my skill set in the states. The placement team at NetNova really took the time to understand my background and connected me with an amazing role in just three weeks.",
@@ -19,7 +19,7 @@ const testimonials = [
     type: "US Citizen",
   },
   {
-    name: "Kenji Sato",
+    name: "Vihaan Patel",
     role: "UX/UI Designer",
     content:
       "Relocating and finding a suitable job seemed impossible until I found this consultancy. Their global reach and dedicated support staff made the entire transition smooth and stress-free. I highly recommend them to anyone seeking international opportunities.",
@@ -27,7 +27,7 @@ const testimonials = [
     type: "Japan Citizen",
   },
   {
-    name: "Amara Diallo",
+    name: "Diya Reddy",
     role: "Data Scientist",
     content:
       "The personalized career counseling I received was outstanding. They helped me highlight my predictive modeling experience, which ultimately caught the eye of a top-tier tech firm. A truly phenomenal experience from start to finish.",
@@ -35,7 +35,7 @@ const testimonials = [
     type: "African Citizen",
   },
   {
-    name: "David Chen",
+    name: "Advik Singh",
     role: "Cloud Architect",
     content:
       "What impressed me most was their deep understanding of the tech industry. They didn't just send me random job postings; every interview they arranged was a perfect fit for my career goals.",
@@ -43,7 +43,7 @@ const testimonials = [
     type: "Canadian Citizen",
   },
   {
-    name: "Elena Rodriguez",
+    name: "Ananya Gupta",
     role: "Product Manager",
     content:
       "From the initial resume review to the final salary negotiation, the team was incredibly supportive. They gave me the confidence to aim higher, and it paid off with a fantastic new position.",

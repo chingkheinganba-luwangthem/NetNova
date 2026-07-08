@@ -162,7 +162,7 @@ function JobCard({ job }: { job: typeof jobs[0] }) {
           {/* Right Side: Apply Button and Accordion Toggle */}
           <div className="flex flex-row md:flex-col items-center justify-between md:items-end gap-4 shrink-0">
             <Link
-              href="/contact"
+              href={`/careers/apply?role=${encodeURIComponent(job.title)}`}
               className="group/btn inline-flex items-center gap-2 bg-[#D9B24C] text-[#07162B] px-6 py-2.5 rounded-xl text-sm font-bold shadow-[0_4px_15px_rgba(217,178,76,0.3)] hover:shadow-[0_8px_25px_rgba(217,178,76,0.5)] hover:-translate-y-0.5 transition-all"
             >
               Apply
@@ -211,7 +211,7 @@ function JobCard({ job }: { job: typeof jobs[0] }) {
 
                 <div className="mt-8 pt-8 border-t border-[#1E3A8A]/30">
                   <Link
-                    href="/contact"
+                    href={`/careers/apply?role=${encodeURIComponent(job.title)}`}
                     className="inline-flex items-center gap-2 bg-gradient-to-r from-[#1E3A8A] to-[#2D4FA0] text-[#FBF6E8] px-8 py-3.5 rounded-xl text-sm font-bold hover:shadow-[0_8px_25px_rgba(30,58,138,0.5)] hover:-translate-y-0.5 transition-all"
                   >
                     Apply for this Role

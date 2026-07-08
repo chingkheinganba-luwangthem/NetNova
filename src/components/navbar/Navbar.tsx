@@ -21,7 +21,7 @@ const navLinks: NavLink[] = [
   { href: "/about", label: "About" },
   { href: "/services", label: "Services" },
   { href: "/careers", label: "Careers" },
-  { href: "/candidates", label: "Partner Portal" },
+  { href: "/alliance-hub", label: "Alliance Hub" },
   { href: "/refer-and-earn", label: "Refer and Earn" },
   { href: "/contact", label: "Contact" },
 ];
