@@ -3,31 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import { Users, Target, Award, CheckCircle2, ChevronDown, ChevronUp, ArrowRight, ShieldCheck, Zap, Crown, Plus, Minus } from "lucide-react";
-
-// FAQs data
-const faqs = [
-  {
-    question: "Do I have to pay the initial fee upfront?",
-    answer: "Yes, the initial fee is required to start your enrollment and covers the initial setup and services."
-  },
-  {
-    question: "When exactly do I pay the percentage?",
-    answer: "The percentage is payable from your paychecks only after you successfully land a job and start earning."
-  },
-  {
-    question: "Can I upgrade my plan later?",
-    answer: "Yes, you can upgrade your plan at any time to access more features and dedicated support."
-  },
-  {
-    question: "Is there a refund policy?",
-    answer: "We offer a conditional refund policy. Please refer to our Terms & Conditions for detailed information."
-  },
-  {
-    question: "How long does the placement process take?",
-    answer: "The timeline varies depending on the market and your profile, but our dedicated team works to get you placed as quickly as possible."
-  }
-];
+import { Users, Target, Award, CheckCircle2, ChevronDown, ChevronUp, ArrowRight, ShieldCheck, Zap, Crown } from "lucide-react";
 
 // Plans data
 const plans = [
@@ -40,6 +16,7 @@ const plans = [
     iconColor: "text-cyan-500",
     initialPrice: "$1,500",
     percentage: "12%",
+    duration: "9 months",
     features: [
       "Interview Preparation",
       "Expert CV Coach Consultation",
@@ -64,6 +41,7 @@ const plans = [
     iconColor: "text-purple-400",
     initialPrice: "$2,500",
     percentage: "11%",
+    duration: "9 months",
     features: [
       "Everything in Core Plan",
       "Live Mock Interview Session",
@@ -86,6 +64,7 @@ const plans = [
     iconColor: "text-[#D9B24C]",
     initialPrice: "$3,500",
     percentage: "10%",
+    duration: "9 months",
     features: [
       "Everything in Core & Prime Plans",
       "Additional Premium Support",
@@ -99,8 +78,7 @@ const plans = [
 ];
 
 export default function AllianceHubClient() {
-  const [expandedPlan, setExpandedPlan] = useState<string | null>(null);
-  const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
+  const [expandedPlan, setExpandedPlan] = useState<string | null>("core");
 
   return (
     <div className="min-h-screen bg-[#07162B] text-[#FBF6E8] pt-24 pb-16 relative overflow-hidden">
@@ -189,7 +167,7 @@ export default function AllianceHubClient() {
                       <span className="text-[#94A3B8] text-lg font-medium">initially</span>
                     </div>
                     <p className="text-sm text-[#94A3B8] mt-2 font-medium">
-                      + <span className={plan.iconColor}>{plan.percentage}</span> of your annual package for 9 months
+                      + <span className={plan.iconColor}>{plan.percentage}</span> of your annual package 1st year only • <span className="text-white">{plan.duration}</span> program
                     </p>
                   </div>
                   <div className="flex items-center justify-between md:justify-end gap-4 border-t border-[#1E3A8A]/30 md:border-t-0 pt-4 md:pt-0">
@@ -253,69 +231,6 @@ export default function AllianceHubClient() {
             from your paychecks after getting a job from your new US employer.{' '}
             <strong className="text-white">No hidden charges. No risk.</strong>
           </p>
-        </motion.div>
-
-        {/* FAQs */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.8 }}
-          className="mt-32 max-w-4xl mx-auto"
-        >
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 tracking-tight">
-              Frequently Asked <span className="text-[#D9B24C]">Questions</span>
-            </h2>
-            <p className="text-[#94A3B8] text-sm md:text-base">
-              Everything you need to know about our placement plans
-            </p>
-          </div>
-
-          <div className="space-y-4">
-            {faqs.map((faq, index) => {
-              const isExpanded = expandedFaq === index;
-              return (
-                <div
-                  key={index}
-                  className="bg-[#0F2D5C]/30 border border-[#1E3A8A]/40 rounded-2xl overflow-hidden transition-all duration-300 hover:border-[#1E3A8A]"
-                >
-                  <button
-                    onClick={() => setExpandedFaq(isExpanded ? null : index)}
-                    className="w-full px-6 py-5 flex items-center justify-between text-left focus:outline-none group"
-                  >
-                    <span className="font-bold text-base md:text-lg text-white group-hover:text-[#D9B24C] transition-colors pr-8">
-                      {faq.question}
-                    </span>
-                    <div className="w-8 h-8 rounded-full border border-[#1E3A8A]/50 flex items-center justify-center shrink-0 group-hover:border-[#D9B24C]/50 transition-colors bg-[#07162B]">
-                      {isExpanded ? (
-                        <Minus className="w-4 h-4 text-[#D9B24C]" />
-                      ) : (
-                        <Plus className="w-4 h-4 text-[#94A3B8] group-hover:text-[#D9B24C]" />
-                      )}
-                    </div>
-                  </button>
-                  <AnimatePresence>
-                    {isExpanded && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.3 }}
-                      >
-                        <div className="px-6 pb-6 pt-2 text-[#94A3B8] leading-relaxed border-t border-[#1E3A8A]/20">
-                          {faq.answer}
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              );
-            })}
-          </div>
-          
-          <div className="text-center mt-12 text-[#475569] text-xs pb-8">
-            All plans include a dedicated account manager. Terms & Conditions apply. Prices are subject to change.
-          </div>
         </motion.div>
 
       </div>
