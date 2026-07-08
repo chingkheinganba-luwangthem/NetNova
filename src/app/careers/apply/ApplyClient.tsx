@@ -34,7 +34,7 @@ export default function ApplyClient() {
     const formData = new FormData(form);
 
     try {
-      const response = await fetch("https://formsubmit.co/ajax/info@netnova-technologies.com", {
+      const response = await fetch("https://formsubmit.co/ajax/chingkheinganbaluwangthem@gmail.com", {
         method: "POST",
         body: formData,
       });

@@ -15,6 +15,7 @@ export default function ContactPageClient() {
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const validate = () => {
     const newErrors: Record<string, string> = {};
@@ -28,11 +29,30 @@ export default function ContactPageClient() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (validate()) {
-      setIsSubmitted(true);
-      /* API call would go here */
+      setIsSubmitting(true);
+      try {
+        const response = await fetch("https://formsubmit.co/ajax/chingkheinganbaluwangthem@gmail.com", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+          },
+          body: JSON.stringify(formData),
+        });
+
+        if (response.ok) {
+          setIsSubmitted(true);
+        } else {
+          alert("Something went wrong. Please try again.");
+        }
+      } catch (error) {
+        alert("An error occurred. Please try again later.");
+      } finally {
+        setIsSubmitting(false);
+      }
     }
   };
 
@@ -242,10 +262,17 @@ export default function ContactPageClient() {
                 <div className="pt-4">
                   <button
                     type="submit"
-                    className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-[#D9B24C] to-[#E2C974] hover:to-[#D9B24C] text-[#07162B] px-8 py-3.5 rounded-xl text-[13px] font-bold uppercase tracking-wide transition-all hover:shadow-[0_0_20px_rgba(217,178,76,0.3)]"
+                    disabled={isSubmitting}
+                    className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-[#D9B24C] to-[#E2C974] hover:to-[#D9B24C] text-[#07162B] px-8 py-3.5 rounded-xl text-[13px] font-bold uppercase tracking-wide transition-all hover:shadow-[0_0_20px_rgba(217,178,76,0.3)] disabled:opacity-70 disabled:cursor-not-allowed"
                   >
-                    <Send className="w-4 h-4" />
-                    Send Message
+                    {isSubmitting ? (
+                      <span className="animate-pulse">Sending...</span>
+                    ) : (
+                      <>
+                        <Send className="w-4 h-4" />
+                        Send Message
+                      </>
+                    )}
                   </button>
                 </div>
               </form>
