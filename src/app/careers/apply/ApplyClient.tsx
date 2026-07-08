@@ -26,31 +26,10 @@ export default function ApplyClient() {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = () => {
     setLoading(true);
-
-    const form = e.target as HTMLFormElement;
-    const formData = new FormData(form);
-
-    try {
-      const response = await fetch("https://formsubmit.co/ajax/chingkheinganbaluwangthem@gmail.com", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (response.ok) {
-        toast.success("Application submitted successfully! We will get back to you soon.");
-        form.reset();
-        setFileName("");
-      } else {
-        toast.error("Something went wrong. Please try again.");
-      }
-    } catch {
-      toast.error("An error occurred. Please try again later.");
-    } finally {
-      setLoading(false);
-    }
+    // The actual submission is handled by the browser's form POST
+    // We just show the loading state until the page unloads
   };
 
   return (
@@ -85,7 +64,16 @@ export default function ApplyClient() {
           </div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-8">
+          <form 
+            action="https://formsubmit.co/chingkheinganbaluwangthem@gmail.com" 
+            method="POST" 
+            encType="multipart/form-data"
+            onSubmit={handleSubmit}
+            className="space-y-8"
+          >
+            {/* FormSubmit Configuration */}
+            <input type="hidden" name="_subject" value={`New Job Application: ${role}`} />
+            <input type="hidden" name="_template" value="table" />
             {/* Row 1: Name + Email */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="space-y-2">
