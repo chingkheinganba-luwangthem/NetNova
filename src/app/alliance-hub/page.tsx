@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import AllianceHubClient from './AllianceHubClient';
+import AllianceHubClient from '@/app/alliance-hub/AllianceHubClient';
 
 export const metadata: Metadata = {
   title: 'Alliance Hub | NetNova Technologies',

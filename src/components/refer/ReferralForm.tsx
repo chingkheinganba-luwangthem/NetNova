@@ -12,16 +12,45 @@ import Link from "next/link";
 export default function ReferralForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const validate = (data: Record<string, any>) => {
+    const newErrors: Record<string, string> = {};
+    if (!data.sourceName?.trim()) newErrors.sourceName = "Full Name required";
+    if (!data.sourceEmail?.trim()) newErrors.sourceEmail = "Email required";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.sourceEmail))
+      newErrors.sourceEmail = "Invalid email";
+    if (!data.sourcePhone?.trim()) newErrors.sourcePhone = "Phone required";
+    else if (!/^\+?[0-9\s\-()]{7,15}$/.test(data.sourcePhone))
+      newErrors.sourcePhone = "Invalid phone number";
+      
+    if (!data.targetName?.trim()) newErrors.targetName = "Referral Name required";
+    if (!data.targetEmail?.trim()) newErrors.targetEmail = "Referral Email required";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.targetEmail))
+      newErrors.targetEmail = "Invalid email";
+    if (!data.targetPhone?.trim()) newErrors.targetPhone = "Referral Phone required";
+    else if (!/^\+?[0-9\s\-()]{7,15}$/.test(data.targetPhone))
+      newErrors.targetPhone = "Invalid phone number";
+      
+    if (!data.referralOptIn) newErrors.referralOptIn = "You must agree to receive messages";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
     
     const form = e.target as HTMLFormElement;
     const formData = new FormData(form);
+    const data: Record<string, any> = {};
+    formData.forEach((value, key) => { data[key] = value; });
+
+    if (validate(data)) {
+      setIsSubmitting(true);
 
     try {
-      const response = await fetch("https://formsubmit.co/ajax/chingkheinganbaluwangthem@gmail.com", {
+      const response = await fetch("https://formsubmit.co/ajax/info@netnova-technologies.com", {
         method: "POST",
         headers: {
           "Accept": "application/json",
@@ -36,10 +65,11 @@ export default function ReferralForm() {
       } else {
         alert("Something went wrong. Please try again.");
       }
-    } catch (error) {
-      alert("An error occurred. Please try again later.");
-    } finally {
-      setIsSubmitting(false);
+      } catch (error) {
+        alert("An error occurred. Please try again later.");
+      } finally {
+        setIsSubmitting(false);
+      }
     }
   };
 
@@ -55,7 +85,7 @@ export default function ReferralForm() {
           {/* Subtle glow effect behind the form */}
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-32 bg-[#1E3A8A]/20 blur-[100px] pointer-events-none" />
 
-          <form onSubmit={handleSubmit} className="relative z-10 space-y-8">
+          <form onSubmit={handleSubmit} className="relative z-10 space-y-8" noValidate>
             
             {/* Reference Source Section */}
             <div className="space-y-4">
@@ -75,10 +105,10 @@ export default function ReferralForm() {
                     type="text"
                     id="sourceName"
                     name="sourceName"
-                    required
                     placeholder="Enter your name"
-                    className="w-full bg-[#0F2D5C]/50 border border-[#1E3A8A]/60 rounded-xl px-4 py-2.5 text-sm text-[#FBF6E8] placeholder-[#475569] focus:outline-none focus:border-[#D9B24C] focus:ring-1 focus:ring-[#D9B24C] transition-all"
+                    className={`w-full bg-[#0F2D5C]/50 border ${errors.sourceName ? "border-red-500" : "border-[#1E3A8A]/60"} rounded-xl px-4 py-2.5 text-sm text-[#FBF6E8] placeholder-[#475569] focus:outline-none focus:border-[#D9B24C] focus:ring-1 focus:ring-[#D9B24C] transition-all`}
                   />
+                  {errors.sourceName && <p className="text-red-400 text-xs mt-1">{errors.sourceName}</p>}
                 </div>
                 <div className="space-y-2">
                   <label htmlFor="sourceEmail" className="text-xs font-bold text-[#94A3B8] uppercase tracking-wider block">
@@ -88,10 +118,10 @@ export default function ReferralForm() {
                     type="email"
                     id="sourceEmail"
                     name="sourceEmail"
-                    required
                     placeholder="your@email.com"
-                    className="w-full bg-[#0F2D5C]/50 border border-[#1E3A8A]/60 rounded-xl px-4 py-2.5 text-sm text-[#FBF6E8] placeholder-[#475569] focus:outline-none focus:border-[#D9B24C] focus:ring-1 focus:ring-[#D9B24C] transition-all"
+                    className={`w-full bg-[#0F2D5C]/50 border ${errors.sourceEmail ? "border-red-500" : "border-[#1E3A8A]/60"} rounded-xl px-4 py-2.5 text-sm text-[#FBF6E8] placeholder-[#475569] focus:outline-none focus:border-[#D9B24C] focus:ring-1 focus:ring-[#D9B24C] transition-all`}
                   />
+                  {errors.sourceEmail && <p className="text-red-400 text-xs mt-1">{errors.sourceEmail}</p>}
                 </div>
                 <div className="space-y-2 md:col-span-2">
                   <label htmlFor="sourcePhone" className="text-xs font-bold text-[#94A3B8] uppercase tracking-wider block">
@@ -101,10 +131,10 @@ export default function ReferralForm() {
                     type="tel"
                     id="sourcePhone"
                     name="sourcePhone"
-                    required
                     placeholder="+1 xxx-xxxx"
-                    className="w-full bg-[#0F2D5C]/50 border border-[#1E3A8A]/60 rounded-xl px-4 py-2.5 text-sm text-[#FBF6E8] placeholder-[#475569] focus:outline-none focus:border-[#D9B24C] focus:ring-1 focus:ring-[#D9B24C] transition-all"
+                    className={`w-full bg-[#0F2D5C]/50 border ${errors.sourcePhone ? "border-red-500" : "border-[#1E3A8A]/60"} rounded-xl px-4 py-2.5 text-sm text-[#FBF6E8] placeholder-[#475569] focus:outline-none focus:border-[#D9B24C] focus:ring-1 focus:ring-[#D9B24C] transition-all`}
                   />
+                  {errors.sourcePhone && <p className="text-red-400 text-xs mt-1">{errors.sourcePhone}</p>}
                 </div>
               </div>
             </div>
@@ -130,10 +160,10 @@ export default function ReferralForm() {
                     type="text"
                     id="targetName"
                     name="targetName"
-                    required
                     placeholder="Candidate name"
-                    className="w-full bg-[#0F2D5C]/50 border border-[#1E3A8A]/60 rounded-xl px-4 py-2.5 text-sm text-[#FBF6E8] placeholder-[#475569] focus:outline-none focus:border-[#D9B24C] focus:ring-1 focus:ring-[#D9B24C] transition-all"
+                    className={`w-full bg-[#0F2D5C]/50 border ${errors.targetName ? "border-red-500" : "border-[#1E3A8A]/60"} rounded-xl px-4 py-2.5 text-sm text-[#FBF6E8] placeholder-[#475569] focus:outline-none focus:border-[#D9B24C] focus:ring-1 focus:ring-[#D9B24C] transition-all`}
                   />
+                  {errors.targetName && <p className="text-red-400 text-xs mt-1">{errors.targetName}</p>}
                 </div>
                 <div className="space-y-2">
                   <label htmlFor="targetEmail" className="text-xs font-bold text-[#94A3B8] uppercase tracking-wider block">
@@ -143,10 +173,10 @@ export default function ReferralForm() {
                     type="email"
                     id="targetEmail"
                     name="targetEmail"
-                    required
                     placeholder="candidate@email.com"
-                    className="w-full bg-[#0F2D5C]/50 border border-[#1E3A8A]/60 rounded-xl px-4 py-2.5 text-sm text-[#FBF6E8] placeholder-[#475569] focus:outline-none focus:border-[#D9B24C] focus:ring-1 focus:ring-[#D9B24C] transition-all"
+                    className={`w-full bg-[#0F2D5C]/50 border ${errors.targetEmail ? "border-red-500" : "border-[#1E3A8A]/60"} rounded-xl px-4 py-2.5 text-sm text-[#FBF6E8] placeholder-[#475569] focus:outline-none focus:border-[#D9B24C] focus:ring-1 focus:ring-[#D9B24C] transition-all`}
                   />
+                  {errors.targetEmail && <p className="text-red-400 text-xs mt-1">{errors.targetEmail}</p>}
                 </div>
                 <div className="space-y-2 md:col-span-2">
                   <label htmlFor="targetPhone" className="text-xs font-bold text-[#94A3B8] uppercase tracking-wider block">
@@ -156,27 +186,30 @@ export default function ReferralForm() {
                     type="tel"
                     id="targetPhone"
                     name="targetPhone"
-                    required
                     placeholder="+1 xxx-xxxx"
-                    className="w-full bg-[#0F2D5C]/50 border border-[#1E3A8A]/60 rounded-xl px-4 py-2.5 text-sm text-[#FBF6E8] placeholder-[#475569] focus:outline-none focus:border-[#D9B24C] focus:ring-1 focus:ring-[#D9B24C] transition-all"
+                    className={`w-full bg-[#0F2D5C]/50 border ${errors.targetPhone ? "border-red-500" : "border-[#1E3A8A]/60"} rounded-xl px-4 py-2.5 text-sm text-[#FBF6E8] placeholder-[#475569] focus:outline-none focus:border-[#D9B24C] focus:ring-1 focus:ring-[#D9B24C] transition-all`}
                   />
+                  {errors.targetPhone && <p className="text-red-400 text-xs mt-1">{errors.targetPhone}</p>}
                 </div>
                 
                 {/* Opt-in Checkbox */}
-                <div className="flex items-start gap-3 md:col-span-2 pt-2">
-                  <input
-                    type="checkbox"
-                    id="referralOptIn"
-                    required
-                    className="mt-1 w-4 h-4 rounded border-[#1E3A8A]/20 bg-[#0F2D5C]/50 text-[#D9B24C] focus:ring-[#D9B24C] cursor-pointer"
-                  />
-                  <label htmlFor="referralOptIn" className="text-[11px] text-[#94A3B8] leading-relaxed cursor-pointer">
-                    By opting in for text messages, you agree to receive messages from NetNova Technologies at the number provided. Message frequency varies. Msg & data rates may apply.{" "}
-                    <Link href="/privacy-policy" className="text-[#D9B24C] hover:underline" target="_blank">
-                      View our Privacy Policy
-                    </Link>{" "}
-                    for more information.
-                  </label>
+                <div className="flex flex-col gap-1 md:col-span-2 pt-2">
+                  <div className="flex items-start gap-3">
+                    <input
+                      type="checkbox"
+                      id="referralOptIn"
+                      name="referralOptIn"
+                      className="mt-1 w-4 h-4 rounded border-[#1E3A8A]/20 bg-[#0F2D5C]/50 text-[#D9B24C] focus:ring-[#D9B24C] cursor-pointer"
+                    />
+                    <label htmlFor="referralOptIn" className="text-[11px] text-[#94A3B8] leading-relaxed cursor-pointer">
+                      By opting in for text messages, you agree to receive messages from NetNova Technologies at the number provided. Message frequency varies. Msg & data rates may apply.{" "}
+                      <Link href="/privacy-policy" className="text-[#D9B24C] hover:underline" target="_blank">
+                        View our Privacy Policy
+                      </Link>{" "}
+                      for more information.
+                    </label>
+                  </div>
+                  {errors.referralOptIn && <p className="text-red-400 text-xs mt-1">{errors.referralOptIn}</p>}
                 </div>
               </div>
             </div>

@@ -1,20 +1,13 @@
-import { Loader2 } from "lucide-react";
-
 export default function Loading() {
   return (
-    <div className="min-h-[calc(100vh-5rem)] flex flex-col items-center justify-center bg-light-bg">
-      <div className="relative">
-        <div className="absolute inset-0 bg-primary/20 rounded-full blur-xl animate-pulse" />
-        <div className="w-16 h-16 rounded-2xl gradient-bg flex items-center justify-center relative shadow-lg">
-          <Loader2 className="w-8 h-8 text-[#FBF6E8] animate-spin" />
-        </div>
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#07162B]/80 backdrop-blur-sm">
+      <div className="flex flex-col items-center gap-5">
+        {/* Circle spinner */}
+        <div className="w-14 h-14 rounded-full border-4 border-[#1E3A8A]/30 border-t-[#D9B24C] animate-spin" />
+        <p className="text-[#D9B24C] font-bold tracking-widest uppercase text-xs animate-pulse">
+          Loading...
+        </p>
       </div>
-      <h2 className="mt-6 text-xl font-bold text-dark font-[family-name:var(--font-geist-sans)]">
-        Loading...
-      </h2>
-      <p className="mt-2 text-sm text-muted">
-        Preparing your career opportunities
-      </p>
     </div>
   );
 }

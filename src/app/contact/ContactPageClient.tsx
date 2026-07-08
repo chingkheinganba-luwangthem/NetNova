@@ -24,6 +24,9 @@ export default function ContactPageClient() {
     if (!formData.email.trim()) newErrors.email = "Email required";
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email))
       newErrors.email = "Invalid email";
+    if (formData.phone.trim() && !/^\+?[0-9\s\-()]{7,15}$/.test(formData.phone)) {
+      newErrors.phone = "Invalid phone number";
+    }
     if (!formData.message.trim()) newErrors.message = "Message required";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -34,7 +37,7 @@ export default function ContactPageClient() {
     if (validate()) {
       setIsSubmitting(true);
       try {
-        const response = await fetch("https://formsubmit.co/ajax/chingkheinganbaluwangthem@gmail.com", {
+        const response = await fetch("https://formsubmit.co/ajax/info@netnova-technologies.com", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -173,9 +176,10 @@ export default function ContactPageClient() {
                       type="text"
                       value={formData.firstName}
                       onChange={(e) => handleChange("firstName", e.target.value)}
-                      className={`w-full bg-[#050C17] border ${errors.firstName ? "border-red-500/50" : "border-[#1E3A8A]/20"} rounded-xl px-4 py-3.5 text-sm text-white placeholder-[#475569] focus:outline-none focus:border-[#D9B24C] focus:ring-1 focus:ring-[#D9B24C] transition-all`}
+                      className={`w-full bg-[#050C17] border ${errors.firstName ? "border-red-500/50 focus:border-red-500 focus:ring-red-500" : "border-[#1E3A8A]/20 focus:border-[#D9B24C] focus:ring-[#D9B24C]"} rounded-xl px-4 py-3.5 text-sm text-white placeholder-[#475569] focus:outline-none focus:ring-1 transition-all`}
                       placeholder="John"
                     />
+                    {errors.firstName && <p className="text-red-400 text-xs mt-1">{errors.firstName}</p>}
                   </div>
                   
                   {/* Last Name */}
@@ -188,9 +192,10 @@ export default function ContactPageClient() {
                       type="text"
                       value={formData.lastName}
                       onChange={(e) => handleChange("lastName", e.target.value)}
-                      className={`w-full bg-[#050C17] border ${errors.lastName ? "border-red-500/50" : "border-[#1E3A8A]/20"} rounded-xl px-4 py-3.5 text-sm text-white placeholder-[#475569] focus:outline-none focus:border-[#D9B24C] focus:ring-1 focus:ring-[#D9B24C] transition-all`}
+                      className={`w-full bg-[#050C17] border ${errors.lastName ? "border-red-500/50 focus:border-red-500 focus:ring-red-500" : "border-[#1E3A8A]/20 focus:border-[#D9B24C] focus:ring-[#D9B24C]"} rounded-xl px-4 py-3.5 text-sm text-white placeholder-[#475569] focus:outline-none focus:ring-1 transition-all`}
                       placeholder="Doe"
                     />
+                    {errors.lastName && <p className="text-red-400 text-xs mt-1">{errors.lastName}</p>}
                   </div>
                 </div>
 
@@ -205,9 +210,10 @@ export default function ContactPageClient() {
                       type="email"
                       value={formData.email}
                       onChange={(e) => handleChange("email", e.target.value)}
-                      className={`w-full bg-[#050C17] border ${errors.email ? "border-red-500/50" : "border-[#1E3A8A]/20"} rounded-xl px-4 py-3.5 text-sm text-white placeholder-[#475569] focus:outline-none focus:border-[#D9B24C] focus:ring-1 focus:ring-[#D9B24C] transition-all`}
+                      className={`w-full bg-[#050C17] border ${errors.email ? "border-red-500/50 focus:border-red-500 focus:ring-red-500" : "border-[#1E3A8A]/20 focus:border-[#D9B24C] focus:ring-[#D9B24C]"} rounded-xl px-4 py-3.5 text-sm text-white placeholder-[#475569] focus:outline-none focus:ring-1 transition-all`}
                       placeholder="john@example.com"
                     />
+                    {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email}</p>}
                   </div>
                   
                   {/* Phone */}
@@ -220,9 +226,10 @@ export default function ContactPageClient() {
                       type="tel"
                       value={formData.phone}
                       onChange={(e) => handleChange("phone", e.target.value)}
-                      className="w-full bg-[#050C17] border border-[#1E3A8A]/20 rounded-xl px-4 py-3.5 text-sm text-white placeholder-[#475569] focus:outline-none focus:border-[#D9B24C] focus:ring-1 focus:ring-[#D9B24C] transition-all"
+                      className={`w-full bg-[#050C17] border ${errors.phone ? "border-red-500/50 focus:border-red-500 focus:ring-red-500" : "border-[#1E3A8A]/20 focus:border-[#D9B24C] focus:ring-[#D9B24C]"} rounded-xl px-4 py-3.5 text-sm text-white placeholder-[#475569] focus:outline-none focus:ring-1 transition-all`}
                       placeholder="+1 xxx-xxx-xxxx"
                     />
+                    {errors.phone && <p className="text-red-400 text-xs mt-1">{errors.phone}</p>}
                   </div>
                 </div>
 
@@ -236,9 +243,10 @@ export default function ContactPageClient() {
                     rows={5}
                     value={formData.message}
                     onChange={(e) => handleChange("message", e.target.value)}
-                    className={`w-full bg-[#050C17] border ${errors.message ? "border-red-500/50" : "border-[#1E3A8A]/20"} rounded-xl px-4 py-3.5 text-sm text-white placeholder-[#475569] focus:outline-none focus:border-[#D9B24C] focus:ring-1 focus:ring-[#D9B24C] transition-all resize-none`}
+                    className={`w-full bg-[#050C17] border ${errors.message ? "border-red-500/50 focus:border-red-500 focus:ring-red-500" : "border-[#1E3A8A]/20 focus:border-[#D9B24C] focus:ring-[#D9B24C]"} rounded-xl px-4 py-3.5 text-sm text-white placeholder-[#475569] focus:outline-none focus:ring-1 transition-all resize-none`}
                     placeholder="Tell us about your background and goals..."
                   />
+                  {errors.message && <p className="text-red-400 text-xs mt-1">{errors.message}</p>}
                 </div>
 
                 {/* Opt-in Checkbox */}

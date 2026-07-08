@@ -6,6 +6,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ArrowRight, ChevronDown } from "lucide-react";
+import { useLoading } from "@/components/LoadingProvider";
 
 /* ============================================
    Navigation Links Configuration
@@ -33,6 +34,7 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
+  const { navigateTo } = useLoading();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -57,7 +59,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between">
 
           {/* Logo - visually increased size using scale to not affect nav height */}
-          <Link href="/" className="flex items-center shrink-0 group" aria-label="NetNova Technologies Home">
+          <Link href="/" onClick={(e) => { e.preventDefault(); navigateTo("/"); }} className="flex items-center shrink-0 group" aria-label="NetNova Technologies Home">
             <Image
               src="/logo.png"
               alt="NetNova Technologies"
@@ -76,6 +78,7 @@ export default function Navbar() {
                 <Link
                   key={link.href}
                   href={link.href}
+                  onClick={(e) => { e.preventDefault(); navigateTo(link.href); }}
                   className={`relative py-2 text-[15px] font-bold transition-all duration-300 flex items-center gap-1 group ${isActive
                       ? "text-[#1E3A8A]"
                       : "text-[#07162B] hover:text-[#1E3A8A]"
@@ -100,6 +103,7 @@ export default function Navbar() {
           <div className="hidden lg:flex items-center shrink-0">
             <Link
               href="/contact"
+              onClick={(e) => { e.preventDefault(); navigateTo("/contact"); }}
               className="group relative overflow-hidden flex items-center justify-center px-7 py-3 rounded-xl shadow-[0_4px_15px_rgba(212,160,23,0.25)] hover:shadow-[0_6px_20px_rgba(212,160,23,0.35)] transition-all bg-[#D4A017] text-[#0F2D5C]"
             >
               <div className="absolute inset-0 bg-[#0F2D5C] translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out z-0" />
@@ -145,6 +149,7 @@ export default function Navbar() {
                     >
                       <Link
                         href={link.href}
+                        onClick={(e) => { e.preventDefault(); navigateTo(link.href); }}
                         className={`flex items-center justify-between px-4 py-3.5 rounded-xl text-[15px] font-bold transition-all ${isActive
                             ? "bg-[#1E3A8A]/10 text-[#1E3A8A]"
                             : "text-[#07162B] hover:bg-[#FBF6E8] hover:text-[#1E3A8A]"
@@ -164,6 +169,7 @@ export default function Navbar() {
                 >
                   <Link
                     href="/contact"
+                    onClick={(e) => { e.preventDefault(); navigateTo("/contact"); }}
                     className="group relative overflow-hidden flex items-center justify-center w-full px-6 py-3.5 rounded-xl shadow-md bg-[#D4A017] text-[#0F2D5C]"
                   >
                     <div className="absolute inset-0 bg-[#0F2D5C] translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out z-0" />

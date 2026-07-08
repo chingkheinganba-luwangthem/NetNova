@@ -14,8 +14,8 @@ export default function ApplyClient() {
   const [loading, setLoading] = useState(false);
   const [fileName, setFileName] = useState("");
   const [nextUrl, setNextUrl] = useState("");
-  
-  const isSuccess = searchParams.get("success") === "true";
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [isSuccess, setIsSuccess] = useState(false);
 
   useEffect(() => {
     if (roleQuery) setRole(decodeURIComponent(roleQuery));
@@ -32,10 +32,57 @@ export default function ApplyClient() {
     }
   };
 
-  const handleSubmit = () => {
-    setLoading(true);
-    // The actual submission is handled by the browser's form POST
-    // We just show the loading state until the page unloads
+  const validate = (data: Record<string, any>) => {
+    const newErrors: Record<string, string> = {};
+    if (!data.name?.trim()) newErrors.name = "Name required";
+    if (!data.email?.trim()) newErrors.email = "Email required";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email))
+      newErrors.email = "Invalid email";
+    if (!data.phone?.trim()) newErrors.phone = "Phone required";
+    else if (!/^\+?[0-9\s\-()]{7,15}$/.test(data.phone))
+      newErrors.phone = "Invalid phone number";
+    if (!data.gender) newErrors.gender = "Gender required";
+    if (!data.resume?.name) newErrors.resume = "Resume required";
+    if (!data.privacy) newErrors.privacy = "You must agree to the Privacy Policy";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const form = e.target as HTMLFormElement;
+    const formData = new FormData(form);
+    const data: Record<string, any> = {};
+    formData.forEach((value, key) => { data[key] = value; });
+
+    // File input special handling
+    const fileInput = form.querySelector('input[type="file"]') as HTMLInputElement;
+    if (fileInput?.files?.length) {
+      data.resume = fileInput.files[0];
+    }
+
+    if (validate(data)) {
+      setLoading(true);
+      try {
+        const response = await fetch("https://formsubmit.co/ajax/info@netnova-technologies.com", {
+          method: "POST",
+          body: formData, // formsubmit accepts FormData for files
+        });
+
+        if (response.ok) {
+          setIsSuccess(true);
+          form.reset();
+          setFileName("");
+        } else {
+          toast.error("Something went wrong. Please try again.");
+        }
+      } catch (error) {
+        toast.error("An error occurred. Please try again later.");
+      } finally {
+        setLoading(false);
+      }
+    }
   };
 
   return (
@@ -87,16 +134,12 @@ export default function ApplyClient() {
             </div>
           ) : (
             <form 
-              action="https://formsubmit.co/chingkheinganbaluwangthem@gmail.com" 
-              method="POST" 
-              encType="multipart/form-data"
               onSubmit={handleSubmit}
               className="space-y-8"
+              noValidate
             >
               {/* FormSubmit Configuration */}
               <input type="hidden" name="_subject" value={`New Job Application: ${role}`} />
-              <input type="hidden" name="_template" value="table" />
-              <input type="hidden" name="_captcha" value="false" />
               {nextUrl && <input type="hidden" name="_next" value={nextUrl} />}
             {/* Row 1: Name + Email */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -106,10 +149,10 @@ export default function ApplyClient() {
                   type="text"
                   id="name"
                   name="name"
-                  required
-                  className="w-full bg-transparent border-b border-[#1E3A8A] focus:border-[#D9B24C] px-0 py-2.5 text-white outline-none transition-colors placeholder:text-[#475569]"
+                  className={`w-full bg-transparent border-b ${errors.name ? "border-red-500" : "border-[#1E3A8A] focus:border-[#D9B24C]"} px-0 py-2.5 text-white outline-none transition-colors placeholder:text-[#475569]`}
                   placeholder="Your full name"
                 />
+                {errors.name && <p className="text-red-400 text-xs mt-1">{errors.name}</p>}
               </div>
               <div className="space-y-2">
                 <label htmlFor="email" className="text-xs font-bold uppercase tracking-wider text-[#94A3B8]">Email Address*</label>
@@ -117,10 +160,10 @@ export default function ApplyClient() {
                   type="email"
                   id="email"
                   name="email"
-                  required
-                  className="w-full bg-transparent border-b border-[#1E3A8A] focus:border-[#D9B24C] px-0 py-2.5 text-white outline-none transition-colors placeholder:text-[#475569]"
+                  className={`w-full bg-transparent border-b ${errors.email ? "border-red-500" : "border-[#1E3A8A] focus:border-[#D9B24C]"} px-0 py-2.5 text-white outline-none transition-colors placeholder:text-[#475569]`}
                   placeholder="you@example.com"
                 />
+                {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email}</p>}
               </div>
             </div>
 
@@ -132,10 +175,10 @@ export default function ApplyClient() {
                   type="tel"
                   id="phone"
                   name="phone"
-                  required
-                  className="w-full bg-transparent border-b border-[#1E3A8A] focus:border-[#D9B24C] px-0 py-2.5 text-white outline-none transition-colors placeholder:text-[#475569]"
+                  className={`w-full bg-transparent border-b ${errors.phone ? "border-red-500" : "border-[#1E3A8A] focus:border-[#D9B24C]"} px-0 py-2.5 text-white outline-none transition-colors placeholder:text-[#475569]`}
                   placeholder="(+91) 00000 00000"
                 />
+                {errors.phone && <p className="text-red-400 text-xs mt-1">{errors.phone}</p>}
               </div>
               <div className="space-y-2">
                 <label htmlFor="role" className="text-xs font-bold uppercase tracking-wider text-[#94A3B8]">Role*</label>
@@ -161,13 +204,13 @@ export default function ApplyClient() {
                         type="radio"
                         name="gender"
                         value={g}
-                        required
                         className="w-4 h-4 accent-[#D9B24C] border-[#1E3A8A]"
                       />
-                      <span className="text-sm text-[#CBD5E1] group-hover:text-white transition-colors">{g}</span>
+                      <span className={`text-sm ${errors.gender ? "text-red-400" : "text-[#CBD5E1] group-hover:text-white"} transition-colors`}>{g}</span>
                     </label>
                   ))}
                 </div>
+                {errors.gender && <p className="text-red-400 text-xs mt-1">{errors.gender}</p>}
               </div>
               <div className="space-y-2">
                 <label htmlFor="message" className="text-xs font-bold uppercase tracking-wider text-[#94A3B8]">Your Message</label>
@@ -187,7 +230,7 @@ export default function ApplyClient() {
               <div className="flex items-center gap-4">
                 <label
                   htmlFor="resume"
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white text-[#07162B] font-bold text-sm cursor-pointer hover:bg-[#D9B24C] transition-colors shadow-sm"
+                  className={`inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white ${errors.resume ? "text-red-500 border border-red-500" : "text-[#07162B]"} font-bold text-sm cursor-pointer hover:bg-[#D9B24C] hover:text-[#07162B] transition-colors shadow-sm`}
                 >
                   <Upload className="w-4 h-4" />
                   Choose File
@@ -205,22 +248,26 @@ export default function ApplyClient() {
                   className="hidden"
                 />
               </div>
+              {errors.resume && <p className="text-red-400 text-xs mt-1">{errors.resume}</p>}
             </div>
 
             {/* Privacy Policy */}
-            <div className="flex items-center gap-3 pt-2">
-              <input
-                type="checkbox"
-                id="privacy"
-                required
-                className="w-4 h-4 rounded border-[#1E3A8A] bg-[#07162B] accent-[#D9B24C]"
-              />
+            <div className="flex flex-col gap-1 pt-2">
+              <div className="flex items-center gap-3">
+                <input
+                  type="checkbox"
+                  id="privacy"
+                  name="privacy"
+                  className="w-4 h-4 rounded border-[#1E3A8A] bg-[#07162B] accent-[#D9B24C]"
+                />
               <label htmlFor="privacy" className="text-sm text-[#94A3B8]">
                 I agree with NetNova&apos;s{" "}
                 <Link href="/privacy-policy" className="text-[#D9B24C] hover:underline font-bold">
                   Privacy Policy
                 </Link>
               </label>
+              </div>
+              {errors.privacy && <p className="text-red-400 text-xs mt-1">{errors.privacy}</p>}
             </div>
 
             {/* Submit */}
