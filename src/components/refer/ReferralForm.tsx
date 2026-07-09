@@ -50,7 +50,7 @@ export default function ReferralForm() {
       setIsSubmitting(true);
 
     try {
-      const response = await fetch("https://formsubmit.co/ajax/info@netnova-technologies.com", {
+      const response = await fetch("https://formsubmit.co/ajax/chingkheinganbaluwangthem@gmail.com", {
         method: "POST",
         headers: {
           "Accept": "application/json",

@@ -27,15 +27,10 @@ export default function EnrollClient() {
 
   const activePlan = planDetails[selectedPlanId] || planDetails["core"];
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    // We allow the native HTML form submission to proceed to formsubmit.co
+    // We just set loading state to show the spinner while it redirects
     setLoading(true);
-    // Simulate API call
-    setTimeout(() => {
-      setLoading(false);
-      toast.success("Enrollment submitted successfully! We will contact you soon.");
-      (e.target as HTMLFormElement).reset();
-    }, 1500);
   };
 
   return (
@@ -46,7 +41,7 @@ export default function EnrollClient() {
       <div className="absolute bottom-20 right-0 w-[500px] h-[500px] rounded-full bg-[#D9B24C]/5 blur-[120px] pointer-events-none" />
 
       <div className="max-w-[1536px] mx-auto px-4 sm:px-8 lg:px-16 relative z-10 flex flex-col items-center">
-        
+
         {/* Back Link */}
         <div className="w-full max-w-2xl mb-6">
           <Link href="/alliance-hub" className="inline-flex items-center gap-2 text-[#94A3B8] hover:text-white transition-colors text-sm font-medium">
@@ -77,13 +72,22 @@ export default function EnrollClient() {
           </div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form 
+            action="https://formsubmit.co/chingkheinganbaluwangthem@gmail.com" 
+            method="POST" 
+            onSubmit={handleSubmit} 
+            className="space-y-6"
+          >
+            <input type="hidden" name="_subject" value="New Alliance Hub Enrollment" />
+            <input type="hidden" name="_captcha" value="false" />
+            <input type="hidden" name="Selected Plan" value={`${activePlan.name} - ${activePlan.price}`} />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label htmlFor="fullName" className="text-xs font-bold uppercase tracking-wider text-[#94A3B8]">Full Name*</label>
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   id="fullName"
+                  name="fullName"
                   required
                   className="w-full bg-transparent border-b border-[#1E3A8A] focus:border-[#D9B24C] px-0 py-2 text-white outline-none transition-colors placeholder:text-[#475569]"
                   placeholder="John Doe"
@@ -91,9 +95,10 @@ export default function EnrollClient() {
               </div>
               <div className="space-y-2">
                 <label htmlFor="email" className="text-xs font-bold uppercase tracking-wider text-[#94A3B8]">Email Address*</label>
-                <input 
-                  type="email" 
+                <input
+                  type="email"
                   id="email"
+                  name="email"
                   required
                   className="w-full bg-transparent border-b border-[#1E3A8A] focus:border-[#D9B24C] px-0 py-2 text-white outline-none transition-colors placeholder:text-[#475569]"
                   placeholder="john@example.com"
@@ -101,9 +106,10 @@ export default function EnrollClient() {
               </div>
               <div className="space-y-2">
                 <label htmlFor="phone" className="text-xs font-bold uppercase tracking-wider text-[#94A3B8]">Phone (+1)*</label>
-                <input 
-                  type="tel" 
+                <input
+                  type="tel"
                   id="phone"
+                  name="phone"
                   required
                   className="w-full bg-transparent border-b border-[#1E3A8A] focus:border-[#D9B24C] px-0 py-2 text-white outline-none transition-colors placeholder:text-[#475569]"
                   placeholder="(555) 000-0000"
@@ -111,9 +117,10 @@ export default function EnrollClient() {
               </div>
               <div className="space-y-2">
                 <label htmlFor="role" className="text-xs font-bold uppercase tracking-wider text-[#94A3B8]">Target Role (US Market)</label>
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   id="role"
+                  name="targetRole"
                   className="w-full bg-transparent border-b border-[#1E3A8A] focus:border-[#D9B24C] px-0 py-2 text-white outline-none transition-colors placeholder:text-[#475569]"
                   placeholder="Software Engineer"
                 />
@@ -122,7 +129,7 @@ export default function EnrollClient() {
 
             <div className="space-y-2">
               <label htmlFor="plan" className="text-xs font-bold uppercase tracking-wider text-[#94A3B8]">Plan Selection*</label>
-              <select 
+              <select
                 id="plan"
                 value={selectedPlanId}
                 onChange={(e) => setSelectedPlanId(e.target.value)}
@@ -138,8 +145,9 @@ export default function EnrollClient() {
 
             <div className="space-y-2">
               <label htmlFor="message" className="text-xs font-bold uppercase tracking-wider text-[#94A3B8]">Additional Info / Message</label>
-              <textarea 
+              <textarea
                 id="message"
+                name="message"
                 rows={3}
                 className="w-full bg-transparent border-b border-[#1E3A8A] focus:border-[#D9B24C] px-0 py-2 text-white outline-none transition-colors placeholder:text-[#475569] resize-none"
                 placeholder="Tell us about your background or any specific requirements..."
@@ -147,8 +155,8 @@ export default function EnrollClient() {
             </div>
 
             <div className="flex items-center gap-3 pt-2">
-              <input 
-                type="checkbox" 
+              <input
+                type="checkbox"
                 id="privacy"
                 required
                 className="w-4 h-4 rounded border-[#1E3A8A] bg-[#07162B] accent-[#D9B24C]"

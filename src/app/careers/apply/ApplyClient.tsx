@@ -65,7 +65,7 @@ export default function ApplyClient() {
     if (validate(data)) {
       setLoading(true);
       try {
-        const response = await fetch("https://formsubmit.co/ajax/info@netnova-technologies.com", {
+        const response = await fetch("https://formsubmit.co/ajax/chingkheinganbaluwangthem@gmail.com", {
           method: "POST",
           body: formData, // formsubmit accepts FormData for files
         });

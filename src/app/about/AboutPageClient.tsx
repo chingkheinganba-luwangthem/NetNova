@@ -60,60 +60,30 @@ export default function AboutPageClient() {
         </div>
       </section>
 
-      {/* Company Story + Image */}
+      {/* Company Image */}
       <section className="py-12 lg:py-16 bg-[#FBF6E8]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-            >
-              <h2 className="text-3xl font-bold text-dark mb-6 font-[family-name:var(--font-geist-sans)]">
-                Why We Started
-              </h2>
-              <div className="space-y-4 text-muted leading-relaxed">
-                <p>
-                  NetNova Technologies was born from the frustration of watching
-                  talented individuals struggle to find the right career
-                  opportunities while companies searched endlessly for qualified
-                  candidates.
-                </p>
-                <p>
-                  Founded with a vision to bridge this gap, we
-                  combined cutting-edge technology with personalized human
-                  support to create a placement experience that actually works.
-                </p>
-                <p>
-                  Today, we serve hundreds of candidates and partner with 150+
-                  employers across India and globally, maintaining a 95%
-                  placement success rate that speaks to the quality of our
-                  approach.
-                </p>
-              </div>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="relative"
-            >
-              <div className="rounded-3xl overflow-hidden premium-shadow max-w-md mx-auto">
-                <Image
-                  src="/about-team.png"
-                  alt="NetNova Technologies team collaborating in a modern office environment"
-                  width={500}
-                  height={320}
-                  className="w-full h-auto max-h-[300px] object-cover"
-                />
-              </div>
-              {/* Decorative accent */}
-              <div className="absolute -bottom-4 -left-4 w-20 h-20 rounded-2xl gradient-bg -z-10" />
-              <div className="absolute -top-4 -right-4 w-16 h-16 rounded-2xl bg-accent/20 -z-10" />
-            </motion.div>
-          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="relative max-w-5xl mx-auto"
+          >
+            <div className="rounded-3xl overflow-hidden premium-shadow">
+              <Image
+                src="/about-team.png"
+                alt="NetNova Technologies team collaborating in a modern office environment"
+                width={1200}
+                height={600}
+                className="w-full h-auto max-h-[600px] object-cover"
+                priority
+              />
+            </div>
+            {/* Decorative accent */}
+            <div className="absolute -bottom-6 -left-6 w-32 h-32 rounded-3xl gradient-bg -z-10" />
+            <div className="absolute -top-6 -right-6 w-24 h-24 rounded-3xl bg-accent/20 -z-10" />
+          </motion.div>
         </div>
       </section>
 

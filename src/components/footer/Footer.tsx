@@ -150,13 +150,13 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="mailto:info@netnova-technologies.com"
+                  href="mailto:chingkheinganbaluwangthem@gmail.com"
                   className="flex items-center gap-4 text-[#94A3B8] text-sm group"
                 >
                   <div className="w-10 h-10 rounded-lg bg-[#1E3A8A]/10 border border-[#1E3A8A]/20 flex items-center justify-center shrink-0 group-hover:border-[#D9B24C]/50 transition-colors">
                     <Mail className="w-4 h-4 text-[#D9B24C]" />
                   </div>
-                  <span className="group-hover:text-[#D9B24C] transition-colors">info@netnova-technologies.com</span>
+                  <span className="group-hover:text-[#D9B24C] transition-colors">chingkheinganbaluwangthem@gmail.com</span>
                 </a>
               </li>
             </ul>
