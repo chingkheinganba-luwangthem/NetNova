@@ -32,13 +32,31 @@ export default function ContactPageClient() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: FormEvent) => {
-    // Let the native form submission proceed so the user can activate the email
-    if (!validate()) {
-      e.preventDefault();
-      return;
-    }
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    if (!validate()) return;
+
     setIsSubmitting(true);
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          _subject: "New Contact Form Submission",
+          ...formData,
+        }),
+      });
+
+      if (response.ok) {
+        setIsSubmitted(true);
+      } else {
+        alert("Something went wrong. Please try again.");
+      }
+    } catch {
+      alert("An error occurred. Please try again later.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (field: string, value: string) => {
@@ -147,14 +165,10 @@ export default function ContactPageClient() {
               </div>
             ) : (
               <form 
-                action="https://formsubmit.co/chingkheinganbaluwangthem@gmail.com" 
-                method="POST"
                 onSubmit={handleSubmit} 
                 className="space-y-6" 
                 noValidate
               >
-                <input type="hidden" name="_subject" value="New Contact Form Submission" />
-                <input type="hidden" name="_captcha" value="false" />
                 <div className="grid sm:grid-cols-2 gap-6">
                   {/* First Name */}
                   <div className="space-y-2.5">

@@ -27,10 +27,36 @@ export default function EnrollClient() {
 
   const activePlan = planDetails[selectedPlanId] || planDetails["core"];
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    // We allow the native HTML form submission to proceed to formsubmit.co
-    // We just set loading state to show the spinner while it redirects
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.currentTarget;
     setLoading(true);
+
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          _subject: "New Alliance Hub Enrollment",
+          "Selected Plan": `${activePlan.name} - ${activePlan.price}`,
+          ...data,
+        }),
+      });
+
+      if (response.ok) {
+        toast.success("Enrollment submitted successfully! We will contact you soon.");
+        form.reset();
+      } else {
+        toast.error("Something went wrong. Please try again.");
+      }
+    } catch {
+      toast.error("An error occurred. Please try again later.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -73,14 +99,9 @@ export default function EnrollClient() {
 
           {/* Form */}
           <form 
-            action="https://formsubmit.co/chingkheinganbaluwangthem@gmail.com" 
-            method="POST" 
             onSubmit={handleSubmit} 
             className="space-y-6"
           >
-            <input type="hidden" name="_subject" value="New Alliance Hub Enrollment" />
-            <input type="hidden" name="_captcha" value="false" />
-            <input type="hidden" name="Selected Plan" value={`${activePlan.name} - ${activePlan.price}`} />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label htmlFor="fullName" className="text-xs font-bold uppercase tracking-wider text-[#94A3B8]">Full Name*</label>
