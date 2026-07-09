@@ -32,31 +32,13 @@ export default function ContactPageClient() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    if (validate()) {
-      setIsSubmitting(true);
-      try {
-        const response = await fetch("https://formsubmit.co/ajax/chingkheinganbaluwangthem@gmail.com", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-          },
-          body: JSON.stringify(formData),
-        });
-
-        if (response.ok) {
-          setIsSubmitted(true);
-        } else {
-          alert("Something went wrong. Please try again.");
-        }
-      } catch (error) {
-        alert("An error occurred. Please try again later.");
-      } finally {
-        setIsSubmitting(false);
-      }
+  const handleSubmit = (e: FormEvent) => {
+    // Let the native form submission proceed so the user can activate the email
+    if (!validate()) {
+      e.preventDefault();
+      return;
     }
+    setIsSubmitting(true);
   };
 
   const handleChange = (field: string, value: string) => {
@@ -164,7 +146,15 @@ export default function ContactPageClient() {
                 </button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-6" noValidate>
+              <form 
+                action="https://formsubmit.co/chingkheinganbaluwangthem@gmail.com" 
+                method="POST"
+                onSubmit={handleSubmit} 
+                className="space-y-6" 
+                noValidate
+              >
+                <input type="hidden" name="_subject" value="New Contact Form Submission" />
+                <input type="hidden" name="_captcha" value="false" />
                 <div className="grid sm:grid-cols-2 gap-6">
                   {/* First Name */}
                   <div className="space-y-2.5">
@@ -173,6 +163,7 @@ export default function ContactPageClient() {
                     </label>
                     <input
                       id="firstName"
+                      name="firstName"
                       type="text"
                       value={formData.firstName}
                       onChange={(e) => handleChange("firstName", e.target.value)}
@@ -189,6 +180,7 @@ export default function ContactPageClient() {
                     </label>
                     <input
                       id="lastName"
+                      name="lastName"
                       type="text"
                       value={formData.lastName}
                       onChange={(e) => handleChange("lastName", e.target.value)}
@@ -207,6 +199,7 @@ export default function ContactPageClient() {
                     </label>
                     <input
                       id="email"
+                      name="email"
                       type="email"
                       value={formData.email}
                       onChange={(e) => handleChange("email", e.target.value)}
@@ -223,6 +216,7 @@ export default function ContactPageClient() {
                     </label>
                     <input
                       id="phone"
+                      name="phone"
                       type="tel"
                       value={formData.phone}
                       onChange={(e) => handleChange("phone", e.target.value)}
@@ -240,6 +234,7 @@ export default function ContactPageClient() {
                   </label>
                   <textarea
                     id="message"
+                    name="message"
                     rows={5}
                     value={formData.message}
                     onChange={(e) => handleChange("message", e.target.value)}
@@ -254,6 +249,7 @@ export default function ContactPageClient() {
                   <input
                     type="checkbox"
                     id="optIn"
+                    name="optIn"
                     required
                     className="mt-1 w-4 h-4 rounded border-[#1E3A8A]/20 bg-[#050C17] text-[#D9B24C] focus:ring-[#D9B24C] cursor-pointer"
                   />

@@ -38,39 +38,19 @@ export default function ReferralForm() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
+  const handleSubmit = (e: React.FormEvent) => {
     const form = e.target as HTMLFormElement;
     const formData = new FormData(form);
     const data: Record<string, any> = {};
     formData.forEach((value, key) => { data[key] = value; });
 
-    if (validate(data)) {
-      setIsSubmitting(true);
-
-    try {
-      const response = await fetch("https://formsubmit.co/ajax/chingkheinganbaluwangthem@gmail.com", {
-        method: "POST",
-        headers: {
-          "Accept": "application/json",
-        },
-        body: formData,
-      });
-
-      if (response.ok) {
-        setIsSuccess(true);
-        form.reset(); // Clear the form fields
-        setTimeout(() => setIsSuccess(false), 5000);
-      } else {
-        alert("Something went wrong. Please try again.");
-      }
-      } catch (error) {
-        alert("An error occurred. Please try again later.");
-      } finally {
-        setIsSubmitting(false);
-      }
+    if (!validate(data)) {
+      e.preventDefault();
+      return;
     }
+    
+    // Let the native form submission proceed so the user can activate the email
+    setIsSubmitting(true);
   };
 
   return (
@@ -85,7 +65,15 @@ export default function ReferralForm() {
           {/* Subtle glow effect behind the form */}
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-32 bg-[#1E3A8A]/20 blur-[100px] pointer-events-none" />
 
-          <form onSubmit={handleSubmit} className="relative z-10 space-y-8" noValidate>
+          <form 
+            action="https://formsubmit.co/chingkheinganbaluwangthem@gmail.com" 
+            method="POST"
+            onSubmit={handleSubmit} 
+            className="relative z-10 space-y-8" 
+            noValidate
+          >
+            <input type="hidden" name="_subject" value="New Referral Submission" />
+            <input type="hidden" name="_captcha" value="false" />
             
             {/* Reference Source Section */}
             <div className="space-y-4">

@@ -49,8 +49,7 @@ export default function ApplyClient() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = (e: React.FormEvent) => {
     const form = e.target as HTMLFormElement;
     const formData = new FormData(form);
     const data: Record<string, any> = {};
@@ -62,27 +61,13 @@ export default function ApplyClient() {
       data.resume = fileInput.files[0];
     }
 
-    if (validate(data)) {
-      setLoading(true);
-      try {
-        const response = await fetch("https://formsubmit.co/ajax/chingkheinganbaluwangthem@gmail.com", {
-          method: "POST",
-          body: formData, // formsubmit accepts FormData for files
-        });
-
-        if (response.ok) {
-          setIsSuccess(true);
-          form.reset();
-          setFileName("");
-        } else {
-          toast.error("Something went wrong. Please try again.");
-        }
-      } catch (error) {
-        toast.error("An error occurred. Please try again later.");
-      } finally {
-        setLoading(false);
-      }
+    if (!validate(data)) {
+      e.preventDefault();
+      return;
     }
+    
+    // Let the native form submission proceed so the user can activate the email
+    setLoading(true);
   };
 
   return (
@@ -134,11 +119,15 @@ export default function ApplyClient() {
             </div>
           ) : (
             <form 
+              action="https://formsubmit.co/chingkheinganbaluwangthem@gmail.com" 
+              method="POST" 
+              encType="multipart/form-data"
               onSubmit={handleSubmit}
               className="space-y-8"
               noValidate
             >
               {/* FormSubmit Configuration */}
+              <input type="hidden" name="_captcha" value="false" />
               <input type="hidden" name="_subject" value={`New Job Application: ${role}`} />
               {nextUrl && <input type="hidden" name="_next" value={nextUrl} />}
             {/* Row 1: Name + Email */}
