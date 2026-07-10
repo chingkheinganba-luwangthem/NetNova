@@ -246,8 +246,8 @@ export default function PrivacyPolicyPage() {
                   </div>
                   <div>
                     <p className="font-bold text-[#1E3A8A] mb-1">Email</p>
-                    <a href="mailto:chingkheinganbaluwangthem@gmail.com" className="text-[#475569] hover:text-[#D9B24C] transition-colors">
-                      chingkheinganbaluwangthem@gmail.com
+                    <a href="mailto:info@netnova-technologies.com" className="text-[#475569] hover:text-[#D9B24C] transition-colors">
+                      info@netnova-technologies.com
                     </a>
                   </div>
                 </div>

@@ -138,7 +138,7 @@ export default function ContactPageClient() {
               </div>
               <div>
                 <h3 className="text-[13px] font-bold text-white uppercase tracking-wider mb-2">Support</h3>
-                <p className="text-[#94A3B8] text-sm">chingkheinganbaluwangthem@gmail.com</p>
+                <p className="text-[#94A3B8] text-sm">info@netnova-technologies.com</p>
               </div>
             </div>
 
