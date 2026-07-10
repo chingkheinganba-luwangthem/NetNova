@@ -49,8 +49,7 @@ export default function ApplyClient() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = (e: React.FormEvent) => {
     const form = e.target as HTMLFormElement;
     const formData = new FormData(form);
     const data: Record<string, any> = {};
@@ -62,37 +61,13 @@ export default function ApplyClient() {
       data.resume = fileInput.files[0];
     }
 
-    if (!validate(data)) return;
+    if (!validate(data)) {
+      e.preventDefault(); // Stop if invalid
+      return;
+    }
 
     setLoading(true);
-    try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          _subject: `New Job Application: ${role}`,
-          name: data.name,
-          email: data.email,
-          phone: data.phone,
-          role: data.role,
-          gender: data.gender,
-          message: data.message,
-        }),
-      });
-
-      if (response.ok) {
-        setIsSuccess(true);
-        form.reset();
-        setFileName("");
-      } else {
-        const errorData = await response.json().catch(() => null);
-        toast.error(errorData?.message || "Something went wrong. Please try again.");
-      }
-    } catch {
-      toast.error("An error occurred. Please try again later.");
-    } finally {
-      setLoading(false);
-    }
+    // Let the native form submit to FormSubmit
   };
 
   return (
@@ -144,10 +119,16 @@ export default function ApplyClient() {
             </div>
           ) : (
             <form 
+              action="https://formsubmit.co/chingkheinganbaluwangthem@gmail.com" 
+              method="POST" 
+              encType="multipart/form-data"
               onSubmit={handleSubmit}
               className="space-y-8"
               noValidate
             >
+              <input type="hidden" name="_captcha" value="false" />
+              <input type="hidden" name="_subject" value={`New Job Application: ${role}`} />
+              {nextUrl && <input type="hidden" name="_next" value={nextUrl} />}
             {/* Row 1: Name + Email */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="space-y-2">

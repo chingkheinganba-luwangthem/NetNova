@@ -38,39 +38,19 @@ export default function ReferralForm() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = (e: React.FormEvent) => {
     const form = e.target as HTMLFormElement;
     const formData = new FormData(form);
     const data: Record<string, any> = {};
     formData.forEach((value, key) => { data[key] = value; });
 
-    if (!validate(data)) return;
+    if (!validate(data)) {
+      e.preventDefault(); // stop form submission
+      return;
+    }
 
     setIsSubmitting(true);
-    try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          _subject: "New Referral Submission",
-          ...data,
-        }),
-      });
-
-      if (response.ok) {
-        setIsSuccess(true);
-        form.reset();
-        setTimeout(() => setIsSuccess(false), 5000);
-      } else {
-        const errorData = await response.json().catch(() => null);
-        alert(errorData?.message || "Something went wrong. Please try again.");
-      }
-    } catch {
-      alert("An error occurred. Please try again later.");
-    } finally {
-      setIsSubmitting(false);
-    }
+    // Let native form submission proceed
   };
 
   return (
@@ -86,10 +66,15 @@ export default function ReferralForm() {
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-32 bg-[#1E3A8A]/20 blur-[100px] pointer-events-none" />
 
           <form 
+            action="https://formsubmit.co/chingkheinganbaluwangthem@gmail.com" 
+            method="POST"
             onSubmit={handleSubmit} 
             className="relative z-10 space-y-8" 
             noValidate
           >
+            <input type="hidden" name="_subject" value="New Referral Submission" />
+            <input type="hidden" name="_captcha" value="false" />
+            <input type="hidden" name="_next" value="https://net-nova-itan-ig8bwpa8u-chingkheinganba-luwangthems-projects.vercel.app/refer-and-earn?success=true" />
             
             {/* Reference Source Section */}
             <div className="space-y-4">
