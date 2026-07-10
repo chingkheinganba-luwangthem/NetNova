@@ -68,7 +68,7 @@ export async function POST(req: NextRequest) {
         
         <p><strong>Message:</strong></p>
         <blockquote style="border-left: 4px solid #ccc; padding-left: 10px;">
-          ${message?.trim().replace(/\n/g, "<br>") || "N/A"}
+          ${(message || "").trim().replace(/\n/g, "<br>") || "N/A"}
         </blockquote>
         
         <br>
