@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
     const mailOptions = {
       from: `"${name.trim()}" <${process.env.SMTP_USER}>`,
       replyTo: email.trim(),
-      to: process.env.SMTP_USER?.replace("@", "+website@"),
+      to: "info@netnova-technologies.com",
       subject: `NetNova Contact Form: ${subject.trim()}`,
       html: `
         <h2>New Contact Form Submission</h2>
