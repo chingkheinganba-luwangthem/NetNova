@@ -53,7 +53,7 @@ export async function POST(req: NextRequest) {
     const mailOptions = {
       from: `"${sourceName.trim()}" <${process.env.SMTP_USER}>`,
       replyTo: sourceEmail.trim(),
-      to: process.env.SMTP_USER,
+      to: process.env.SMTP_USER?.replace("@", "+website@"),
       subject: `NetNova Referral: ${targetName.trim()}`,
       html: `
         <h2>New Candidate Referral</h2>

@@ -55,7 +55,7 @@ export async function POST(req: NextRequest) {
     const mailOptions = {
       from: `"${name.trim()}" <${process.env.SMTP_USER}>`,
       replyTo: email.trim(),
-      to: process.env.SMTP_USER,
+      to: process.env.SMTP_USER?.replace("@", "+website@"),
       subject: `NetNova Job Application: ${role.trim()}`,
       html: `
         <h2>New Job Application</h2>
