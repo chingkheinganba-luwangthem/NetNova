@@ -38,19 +38,53 @@ export default function ReferralForm() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     const form = e.target as HTMLFormElement;
     const formData = new FormData(form);
     const data: Record<string, any> = {};
     formData.forEach((value, key) => { data[key] = value; });
 
-    if (!validate(data)) {
-      e.preventDefault(); // stop form submission
-      return;
-    }
+    if (!validate(data)) return;
 
     setIsSubmitting(true);
-    // Let native form submission proceed
+    
+    try {
+      const response = await fetch("/api/referral", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          sourceName: data.sourceName,
+          sourceEmail: data.sourceEmail,
+          sourcePhone: data.sourcePhone,
+          targetName: data.targetName,
+          targetEmail: data.targetEmail,
+          targetPhone: data.targetPhone,
+          referralOptIn: !!data.referralOptIn,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok && result.success) {
+        setIsSuccess(true);
+        form.reset(); // clear form
+      } else {
+        setErrors((prev) => ({
+          ...prev,
+          submit: result.message || "Failed to submit referral",
+        }));
+      }
+    } catch (error) {
+      setErrors((prev) => ({
+        ...prev,
+        submit: "An unexpected error occurred. Please try again.",
+      }));
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -66,15 +100,15 @@ export default function ReferralForm() {
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-32 bg-[#1E3A8A]/20 blur-[100px] pointer-events-none" />
 
           <form 
-            action="https://formsubmit.co/chingkheinganbaluwangthem@gmail.com" 
-            method="POST"
             onSubmit={handleSubmit} 
             className="relative z-10 space-y-8" 
             noValidate
           >
-            <input type="hidden" name="_subject" value="New Referral Submission" />
-            <input type="hidden" name="_captcha" value="false" />
-            <input type="hidden" name="_next" value="https://net-nova-itan-ig8bwpa8u-chingkheinganba-luwangthems-projects.vercel.app/refer-and-earn?success=true" />
+            {errors.submit && (
+              <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-sm p-4 rounded-xl">
+                {errors.submit}
+              </div>
+            )}
             
             {/* Reference Source Section */}
             <div className="space-y-4">

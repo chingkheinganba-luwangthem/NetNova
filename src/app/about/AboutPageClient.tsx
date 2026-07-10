@@ -52,7 +52,7 @@ export default function AboutPageClient() {
               <span className="gradient-text">NetNova Technologies</span>
             </h1>
             <p className="text-lg text-muted leading-relaxed">
-              We started with a simple belief — every talented individual
+              We started with a simple belief every talented individual
               deserves access to the right opportunity. Today, we&apos;re making
               that vision a reality.
             </p>

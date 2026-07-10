@@ -27,9 +27,41 @@ export default function EnrollClient() {
 
   const activePlan = planDetails[selectedPlanId] || planDetails["core"];
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    // Let the native form submission proceed
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    
     setLoading(true);
+    
+    try {
+      const response = await fetch("/api/enroll", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          fullName: formData.get("fullName"),
+          email: formData.get("email"),
+          phone: formData.get("phone"),
+          targetRole: formData.get("targetRole"),
+          plan: `${activePlan.name} - ${activePlan.price}`,
+          message: formData.get("message"),
+        }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok && result.success) {
+        window.location.href = "/alliance-hub?success=true";
+      } else {
+        toast.error(result.message || "Failed to submit enrollment");
+      }
+    } catch (error) {
+      toast.error("An unexpected error occurred. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -72,15 +104,9 @@ export default function EnrollClient() {
 
           {/* Form */}
           <form 
-            action="https://formsubmit.co/chingkheinganbaluwangthem@gmail.com" 
-            method="POST" 
             onSubmit={handleSubmit} 
             className="space-y-6"
           >
-            <input type="hidden" name="_subject" value="New Alliance Hub Enrollment" />
-            <input type="hidden" name="_captcha" value="false" />
-            <input type="hidden" name="Selected Plan" value={`${activePlan.name} - ${activePlan.price}`} />
-            <input type="hidden" name="_next" value="https://net-nova-itan-ig8bwpa8u-chingkheinganba-luwangthems-projects.vercel.app/alliance-hub?success=true" />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label htmlFor="fullName" className="text-xs font-bold uppercase tracking-wider text-[#94A3B8]">Full Name*</label>

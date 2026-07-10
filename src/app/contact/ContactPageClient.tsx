@@ -32,13 +32,46 @@ export default function ContactPageClient() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: FormEvent) => {
-    if (!validate()) {
-      e.preventDefault(); // Stop submission if invalid
-      return;
-    }
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    if (!validate()) return;
+    
     setIsSubmitting(true);
-    // Form will naturally submit to the action URL
+    
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: `${formData.firstName} ${formData.lastName}`.trim(),
+          email: formData.email,
+          phone: formData.phone,
+          subject: "New Contact Form Submission",
+          message: formData.message,
+          company: "", // Added to match the API expectation
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        setIsSubmitted(true);
+      } else {
+        setErrors((prev) => ({
+          ...prev,
+          submit: data.message || "Failed to send message",
+        }));
+      }
+    } catch (error) {
+      setErrors((prev) => ({
+        ...prev,
+        submit: "An unexpected error occurred. Please try again.",
+      }));
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (field: string, value: string) => {
@@ -147,15 +180,15 @@ export default function ContactPageClient() {
               </div>
             ) : (
               <form 
-                action="https://formsubmit.co/chingkheinganbaluwangthem@gmail.com"
-                method="POST"
                 onSubmit={handleSubmit} 
                 className="space-y-6" 
                 noValidate
               >
-                <input type="hidden" name="_subject" value="New Contact Form Submission" />
-                <input type="hidden" name="_captcha" value="false" />
-                <input type="hidden" name="_next" value="https://net-nova-itan-ig8bwpa8u-chingkheinganba-luwangthems-projects.vercel.app/contact?success=true" />
+                {errors.submit && (
+                  <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-sm p-4 rounded-xl">
+                    {errors.submit}
+                  </div>
+                )}
                 <div className="grid sm:grid-cols-2 gap-6">
                   {/* First Name */}
                   <div className="space-y-2.5">

@@ -49,7 +49,8 @@ export default function ApplyClient() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     const form = e.target as HTMLFormElement;
     const formData = new FormData(form);
     const data: Record<string, any> = {};
@@ -61,13 +62,28 @@ export default function ApplyClient() {
       data.resume = fileInput.files[0];
     }
 
-    if (!validate(data)) {
-      e.preventDefault(); // Stop if invalid
-      return;
-    }
+    if (!validate(data)) return;
 
     setLoading(true);
-    // Let the native form submit to FormSubmit
+    
+    try {
+      const response = await fetch("/api/apply", {
+        method: "POST",
+        body: formData, // Send FormData directly for multipart/form-data
+      });
+
+      const result = await response.json();
+
+      if (response.ok && result.success) {
+        setIsSuccess(true);
+      } else {
+        toast.error(result.message || "Failed to submit application");
+      }
+    } catch (error) {
+      toast.error("An unexpected error occurred. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -119,16 +135,11 @@ export default function ApplyClient() {
             </div>
           ) : (
             <form 
-              action="https://formsubmit.co/chingkheinganbaluwangthem@gmail.com" 
-              method="POST" 
               encType="multipart/form-data"
               onSubmit={handleSubmit}
               className="space-y-8"
               noValidate
             >
-              <input type="hidden" name="_captcha" value="false" />
-              <input type="hidden" name="_subject" value={`New Job Application: ${role}`} />
-              {nextUrl && <input type="hidden" name="_next" value={nextUrl} />}
             {/* Row 1: Name + Email */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="space-y-2">
