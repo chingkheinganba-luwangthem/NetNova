@@ -1,6 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 
 const TARGET_EMAIL = "chingkheinganbaluwangthem@gmail.com";
+const MAX_RETRIES = 3;
+const INITIAL_BACKOFF_MS = 1000; // 1 second
+
+// Helper for exponential backoff
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export async function POST(req: NextRequest) {
   try {
@@ -9,36 +14,72 @@ export async function POST(req: NextRequest) {
     // Remove internal fields before sending
     const { _subject, ...formFields } = body;
 
-    const response = await fetch(
-      `https://formsubmit.co/ajax/${TARGET_EMAIL}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify({
-          _subject: _subject || "New Form Submission from NetNova",
-          _captcha: "false",
-          _template: "table",
-          ...formFields,
-        }),
-      }
-    );
+    const payload = {
+      _subject: _subject || "New Form Submission from NetNova",
+      _captcha: "false",
+      _template: "table",
+      ...formFields,
+    };
 
-    let data;
-    const contentType = response.headers.get("content-type") || "";
-    
-    if (contentType.includes("application/json")) {
-      data = await response.json();
-    } else {
-      // FormSubmit might return HTML (e.g. activation page)
-      const text = await response.text();
-      data = { message: text.substring(0, 200) };
+    let attempt = 0;
+    let response: Response | null = null;
+    let data: any = null;
+
+    // Retry loop with exponential backoff
+    while (attempt < MAX_RETRIES) {
+      try {
+        response = await fetch(`https://formsubmit.co/ajax/${TARGET_EMAIL}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify(payload),
+        });
+
+        const contentType = response.headers.get("content-type") || "";
+
+        if (contentType.includes("application/json")) {
+          data = await response.json();
+        } else {
+          // FormSubmit might return HTML (e.g. activation page or Cloudflare error page)
+          const text = await response.text();
+          data = { message: text.substring(0, 200) };
+        }
+
+        console.log(`[Attempt ${attempt + 1}] FormSubmit response status:`, response.status);
+        
+        // If it's a 522 or any 5xx error, we should retry
+        if (!response.ok && response.status >= 500) {
+          console.warn(`Attempt ${attempt + 1} failed with status ${response.status}. Retrying...`);
+          throw new Error(`Server returned ${response.status}`);
+        }
+
+        // If it's successful or a non-5xx error (like 400 Bad Request), break the loop and return immediately
+        break;
+      } catch (error: any) {
+        attempt++;
+        if (attempt >= MAX_RETRIES) {
+          console.error("Max retries reached. FormSubmit is unavailable.");
+          break;
+        }
+        // Exponential backoff: 1s, 2s, 4s...
+        const backoffTime = INITIAL_BACKOFF_MS * Math.pow(2, attempt - 1);
+        console.log(`Waiting ${backoffTime}ms before next attempt...`);
+        await delay(backoffTime);
+      }
     }
 
-    console.log("FormSubmit response status:", response.status);
-    console.log("FormSubmit response data:", JSON.stringify(data));
+    // After retries, if we still have a 5xx error or no response
+    if (!response || (response && response.status >= 500)) {
+       return NextResponse.json(
+        { 
+          success: false, 
+          message: "Email service is temporarily unavailable. Please try again in a few minutes."
+        },
+        { status: 503 }
+      );
+    }
 
     if (response.ok && data?.success !== "false") {
       return NextResponse.json(
@@ -59,7 +100,7 @@ export async function POST(req: NextRequest) {
   } catch (error: any) {
     console.error("Form submission error:", error);
     return NextResponse.json(
-      { success: false, message: error?.message || "Internal server error" },
+      { success: false, message: "Internal server error" },
       { status: 500 }
     );
   }

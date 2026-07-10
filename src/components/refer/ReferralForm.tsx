@@ -63,7 +63,8 @@ export default function ReferralForm() {
         form.reset();
         setTimeout(() => setIsSuccess(false), 5000);
       } else {
-        alert("Something went wrong. Please try again.");
+        const errorData = await response.json().catch(() => null);
+        alert(errorData?.message || "Something went wrong. Please try again.");
       }
     } catch {
       alert("An error occurred. Please try again later.");

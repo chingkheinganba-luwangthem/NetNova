@@ -85,7 +85,8 @@ export default function ApplyClient() {
         form.reset();
         setFileName("");
       } else {
-        toast.error("Something went wrong. Please try again.");
+        const errorData = await response.json().catch(() => null);
+        toast.error(errorData?.message || "Something went wrong. Please try again.");
       }
     } catch {
       toast.error("An error occurred. Please try again later.");

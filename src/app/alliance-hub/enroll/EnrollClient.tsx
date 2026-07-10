@@ -50,7 +50,8 @@ export default function EnrollClient() {
         toast.success("Enrollment submitted successfully! We will contact you soon.");
         form.reset();
       } else {
-        toast.error("Something went wrong. Please try again.");
+        const errorData = await response.json().catch(() => null);
+        toast.error(errorData?.message || "Something went wrong. Please try again.");
       }
     } catch {
       toast.error("An error occurred. Please try again later.");
